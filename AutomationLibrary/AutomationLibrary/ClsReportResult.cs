@@ -164,9 +164,7 @@ namespace AutomationLibrary
         /// <param name="pstrDescription"></param>
         /// <param name="pstrStatus"></param>
         /// <param name="pblScreenShot"></param>
-        /// <param name="pblHardStop"></param>
-        /// <param name="pstrHardStopMsg"></param>
-        public static void fnLog(string pstrStepName, string pstrDescription, Status pstrStatus, bool pblScreenShot, bool pblHardStop = false, string pstrHardStopMsg = "")
+        public static void fnLog(string pstrStepName, string pstrDescription, Status pstrStatus, bool pblScreenShot)
         {
             MediaEntityModelProvider ss = null;
             if (pblScreenShot)
@@ -175,37 +173,16 @@ namespace AutomationLibrary
                 ss = MediaEntityBuilder.CreateScreenCaptureFromPath(strSCLocation).Build();
             }
 
-            if (pstrStatus == Status.Fail)
-            {
-                TC_Status = false;
-                if (pblHardStop)
-                {
-                    pstrHardStopMsg = $"Exception defined: {pstrHardStopMsg}";
-                    TestContext.Progress.WriteLine($"{pstrHardStopMsg} - {pstrDescription}");
-                    objTest.Log(pstrStatus, $"{pstrHardStopMsg} - {pstrDescription}", ss);
-                    ClsWebBrowser.fnCloseBrowser();
-                    throw new Exception(pstrHardStopMsg);
-                }
-            }
-
-            var pstrStatusMessage = "";
-            switch (pstrStatus)
-            {
-                case Status.Pass:
-                    pstrStatusMessage = "Pass";
-                    break;
-                case Status.Fail:
-                    pstrStatusMessage = "Fail";
-                    break;
-                case Status.Info:
-                    pstrStatusMessage = "Info";
-                    break;
-                case Status.Warning:
-                    pstrStatusMessage = "Warning";
-                    break;
-            }
-            TestContext.Progress.WriteLine($"{pstrDescription} - {pstrStatusMessage}");
+            TestContext.Progress.WriteLine($"{pstrStepName}: {pstrDescription}");
             objTest.Log(pstrStatus, pstrDescription, ss);
+        }
+
+        public static string fnAssertFail(string pstrMessage)
+        {
+            TC_Status = false;
+            var pstrHardStopMsg = $"Assertion Failed: {pstrMessage}";
+            ClsWebBrowser.fnCloseBrowser();
+            throw new Exception(pstrHardStopMsg);
         }
 
         /// <summary>
