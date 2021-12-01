@@ -11,8 +11,8 @@ namespace AutomationLibrary
         /// <summary>
         /// Constant to define the Automation Setting driver
         /// </summary>
-        //public static string strGlobalConfigFile = @"H:\Any\4th_Automation\GlobalIntakeDriver\AutomationSettings.xlsx";
-        public static string strGlobalConfigFile = @"C:\AutomationProjects\AutomationSettings.xlsx";
+        public static string strGlobalConfigFile = @"H:\Any\4th_Automation\GlobalIntakeDriver\AutomationSettings.xlsx";
+        //public static string strGlobalConfigFile = @"C:\AutomationProjects\AutomationSettings.xlsx";
 
         /// <summary>
         /// Constant static for Edge Driver

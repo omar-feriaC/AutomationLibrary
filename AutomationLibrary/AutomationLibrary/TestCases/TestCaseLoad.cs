@@ -46,7 +46,7 @@ namespace AutomationLibrary.TestCases
 
         public void TearDown() 
         {
-            ClsWebBrowser.fnCloseAllDrivers();
+            ClsWebBrowser.fnCloseBrowser();
         }
 
         [OneTimeTearDown]

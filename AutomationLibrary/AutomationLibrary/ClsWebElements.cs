@@ -83,6 +83,37 @@ namespace AutomationLibrary
         /// <returns></returns>
         public static IWebElement fnGetWebElement(string pstrLocator) => fnGetWebElement(By.XPath(pstrLocator));
 
+
+        /// <summary>
+        /// Get Web Element Given a parent and a relative locator
+        /// </summary>
+        /// <param name="element">The parent element</param>
+        /// <param name="locator">The locator</param>
+        /// <param name="descr">Optional description of the element to find</param>
+        /// <returns>The WebElement</returns>
+        public static IWebElement fnGetWebElement(IWebElement element, By locator, string descr = "")
+        {
+            try
+            {
+                IWebElement pobjElement = element.FindElement(locator);
+                return pobjElement;
+            }
+            catch (Exception pobjException)
+            {
+                fnExceptionHandling(pobjException, $"WebElement not found{(string.IsNullOrEmpty(descr) ? "" : $": {descr}")}", true);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Web Element Given a parent and a relative XPath
+        /// </summary>
+        /// <param name="element">The parent element</param>
+        /// <param name="xpath">The XPath locator</param>
+        /// <param name="descr">Optional description of the element to find</param>
+        /// <returns>The WebElement</returns>
+        public static IWebElement fnGetWebElement(IWebElement element, string xpath, string descr = "") => fnGetWebElement(element, xpath.StartsWith(".") ? By.XPath(xpath) : By.XPath("." + xpath), descr);
+
         /// <summary>
         /// Executes an action specified
         /// </summary>
@@ -113,14 +144,15 @@ namespace AutomationLibrary
                     objFluentWait.Until(x => pobjWebElement).Clear();
                     break;
                 case "CustomSendKeys":
-                    fnScrollToV2(pobjWebElement, "Scroll to element", false);
+                    //fnScrollToV2(pobjWebElement, "Scroll to element", false);
                     Actions action = new Actions(ClsWebBrowser.objDriver);
                     pobjWebElement.Click();
                     action.KeyDown(Keys.Control).SendKeys(Keys.Home).Perform();
                     pobjWebElement.Clear();
+                    Thread.Sleep(TimeSpan.FromMilliseconds(500));
                     pobjWebElement.SendKeys(Keys.Delete);
                     pobjWebElement.SendKeys(pstrTextEnter);
-                    Thread.Sleep(TimeSpan.FromSeconds(1));
+                    //Thread.Sleep(TimeSpan.FromMilliseconds(500));
                     break;
             }
             return objFluentWait;
@@ -839,6 +871,25 @@ namespace AutomationLibrary
             }
         }
 
+        public static bool fnWaitToBeClickable(By by, int Timeout = 5)
+        {
+            bool pblStatus = false;
+            IWebElement objWebElement;
+            try
+            {
+                objExplicitWait = new WebDriverWait(ClsWebBrowser.objDriver, TimeSpan.FromSeconds(Timeout));
+                objExplicitWait.IgnoreExceptionTypes(typeof(WebDriverTimeoutException));
+                objWebElement = objExplicitWait.Until(ExpectedConditions.ElementToBeClickable(by));
+                pblStatus = true;
+                return pblStatus;
+
+            }
+            catch (Exception pobjException)
+            {
+                fnExceptionHandling(pobjException);
+                return pblStatus;
+            }
+        }
 
         public static void fnExceptionHandling(Exception pobjException, string pstrStepName = "", bool pblHardStop = false, string pstrHardStopMsg = "Failed Step and HardStop defined")
         {

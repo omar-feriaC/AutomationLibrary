@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AutomationLibrary
 {
-    public class clsDB
+    public class ClsDB
     {
         private OracleConnection conn;
         private static string strConnection;

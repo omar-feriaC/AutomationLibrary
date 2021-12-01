@@ -466,7 +466,7 @@
   <ItemGroup>
     <Compile Include="ClsWebBrowser.cs" />
     <Compile Include="ClsData.cs" />
-    <Compile Include="clsDataDriven.cs" />
+    <Compile Include="ClsDataDriven.cs" />
     <Compile Include="ClsDB.cs" />
     <Compile Include="ClsReportResult.cs" />
     <Compile Include="ClsVariables.cs" />

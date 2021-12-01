@@ -13,7 +13,7 @@ namespace AutomationLibrary
     /// <summary>
     /// Class to interact with excel files trought Spreadsheetlight framework.
     /// </summary>
-    public class clsData
+    public class ClsData
     {
         //Variables
         private SLDocument _objFile;
@@ -87,7 +87,7 @@ namespace AutomationLibrary
         }
 
         //Constructor
-        public clsData()
+        public ClsData()
         {
             _intCurrentRow = 2;
             _blColumnNames = true;

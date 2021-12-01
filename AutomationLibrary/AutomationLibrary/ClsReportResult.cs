@@ -16,7 +16,7 @@ namespace AutomationLibrary
         
         public static ExtentReports objExtent;
         public static ExtentTest objTest;
-        public static ExtentHtmlReporter objHtmlReporter;
+        public static ExtentV3HtmlReporter objHtmlReporter;
         public static bool TC_Status;
 
         public static bool fnExtentSetup()
@@ -24,23 +24,23 @@ namespace AutomationLibrary
             bool blSuccess;
             try
             {
-                clsDataDriven clsDD = new clsDataDriven();
+                ClsDataDriven clsDD = new ClsDataDriven();
                 blSuccess = clsDD.fnAutomationSettings();
 
                 if (blSuccess)
                 {
                     //To create report directory and add HTML report into it
-                    objHtmlReporter = new ExtentHtmlReporter(clsDataDriven.strReportLocation + clsDataDriven.strReportName + @"\" + clsDataDriven.strReportName + ".html");
+                    objHtmlReporter = new ExtentV3HtmlReporter(ClsDataDriven.strReportLocation + ClsDataDriven.strReportName + @"\" + ClsDataDriven.strReportName + ".html");
 
-                    objHtmlReporter.Config.ReportName = clsDataDriven.strReportName;
-                    objHtmlReporter.Config.DocumentTitle = clsDataDriven.strProjectName + " - " + clsDataDriven.strReportName;
+                    objHtmlReporter.Config.ReportName = ClsDataDriven.strReportName;
+                    objHtmlReporter.Config.DocumentTitle = ClsDataDriven.strProjectName + " - " + ClsDataDriven.strReportName;
                     objHtmlReporter.Config.Theme = AventStack.ExtentReports.Reporter.Configuration.Theme.Dark;
                     objHtmlReporter.Config.Encoding = "utf-8";
 
                     objExtent = new ExtentReports();
-                    objExtent.AddSystemInfo("Project", clsDataDriven.strProjectName);
-                    objExtent.AddSystemInfo("Browser", clsDataDriven.strBrowser);
-                    objExtent.AddSystemInfo("Env", clsDataDriven.strReportEnv);
+                    objExtent.AddSystemInfo("Project", ClsDataDriven.strProjectName);
+                    objExtent.AddSystemInfo("Browser", ClsDataDriven.strBrowser);
+                    objExtent.AddSystemInfo("Env", ClsDataDriven.strReportEnv);
                     objExtent.AttachReporter(objHtmlReporter);
                 }
             }
@@ -158,7 +158,7 @@ namespace AutomationLibrary
                     pstrHardStopMsg = $"Exception defined: {pstrHardStopMsg}";
                     TestContext.Progress.WriteLine($"{pstrHardStopMsg} - {pstrDescription}");
                     objTest.Log(pstrStatus, $"{pstrHardStopMsg} - {pstrDescription}", ss);
-                    ClsWebBrowser.fnCloseAllDrivers();
+                    ClsWebBrowser.fnCloseBrowser();
                     throw new Exception(pstrHardStopMsg);
                 }
             }
@@ -185,12 +185,12 @@ namespace AutomationLibrary
 
         public static string fnGetScreenshot()
         {
-            string strSCName = "SC_" + clsDataDriven.strProjectName + "_" + DateTime.Now.ToString("MMddyyyy_hhmmss");
+            string strSCName = "SC_" + ClsDataDriven.strProjectName + "_" + DateTime.Now.ToString("MMddyyyy_hhmmss");
 
             //To take screenshot
             Screenshot objFile = ((ITakesScreenshot)ClsWebBrowser.objDriver).GetScreenshot();
 
-            string strFileLocation = @clsDataDriven.strReportLocation + @"\Screenshots\" + strSCName + ".jpg";
+            string strFileLocation = ClsDataDriven.strReportLocation + @"\Screenshots\" + strSCName + ".jpg";
             //To save screenshot
             objFile.SaveAsFile(strFileLocation, ScreenshotImageFormat.Jpeg);
 

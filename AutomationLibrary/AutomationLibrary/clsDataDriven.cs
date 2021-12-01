@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AutomationLibrary
 {
-    public class clsDataDriven
+    public class ClsDataDriven
     {
 
         public Application objExcel;
