@@ -871,6 +871,12 @@ namespace AutomationLibrary
             }
         }
 
+        /// <summary>
+        /// Wait to the element to be clickable
+        /// </summary>
+        /// <param name="by"></param>
+        /// <param name="Timeout"></param>
+        /// <returns></returns>
         public static bool fnWaitToBeClickable(By by, int Timeout = 5)
         {
             bool pblStatus = false;
@@ -928,8 +934,6 @@ namespace AutomationLibrary
                     break;
                 default:
                     ClsReportResult.fnLog("Exception", $"{pstrStepName}, Exception => Message({pobjException.Message.ToString()}), Stack Trace({pobjException.StackTrace.ToString()})", Status.Fail, true, pblHardStop, pstrHardStopMsg);
-                    //ClsReportResult.fnLog("Exception", $"Exception: Message({pobjException.Message.ToString()}), Stack Trace({pobjException.StackTrace.ToString()})", Status.Fail, true, pblHardStop, pstrHardStopMsg);
-                    //Console.WriteLine($"Exception: Message({pobjException.Message.ToString()}), Stack Trace({pobjException.StackTrace.ToString()})");
                     break;
             }
         }

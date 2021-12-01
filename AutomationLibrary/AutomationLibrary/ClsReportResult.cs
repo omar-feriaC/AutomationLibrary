@@ -19,6 +19,10 @@ namespace AutomationLibrary
         public static ExtentV3HtmlReporter objHtmlReporter;
         public static bool TC_Status;
 
+        /// <summary>
+        /// Setup tjhe intance of extent reports object
+        /// </summary>
+        /// <returns></returns>
         public static bool fnExtentSetup()
         {
             bool blSuccess;
@@ -51,6 +55,9 @@ namespace AutomationLibrary
             return blSuccess;
         }
 
+        /// <summary>
+        /// Close and generates the HTML Extent Report
+        /// </summary>
         public static void fnExtentClose()
         {
             try
@@ -86,6 +93,15 @@ namespace AutomationLibrary
 
         }
 
+        /// <summary>
+        /// Create a log step and optional takes the screenshot
+        /// </summary>
+        /// <param name="pstrStepName"></param>
+        /// <param name="pstrDescription"></param>
+        /// <param name="pstrStatus"></param>
+        /// <param name="pblScreenShot"></param>
+        /// <param name="pblHardStop"></param>
+        /// <param name="pstrHardStopMsg"></param>
         [Obsolete("New function replace pstrStatus parameter to receive Status.[your status]")]
         public static void fnLog(string pstrStepName, string pstrDescription, string pstrStatus, bool pblScreenShot, bool pblHardStop = false, string pstrHardStopMsg = "")
         {
@@ -141,6 +157,15 @@ namespace AutomationLibrary
             }
         }
 
+        /// <summary>
+        /// Create a log step and optional takes the screenshot
+        /// </summary>
+        /// <param name="pstrStepName"></param>
+        /// <param name="pstrDescription"></param>
+        /// <param name="pstrStatus"></param>
+        /// <param name="pblScreenShot"></param>
+        /// <param name="pblHardStop"></param>
+        /// <param name="pstrHardStopMsg"></param>
         public static void fnLog(string pstrStepName, string pstrDescription, Status pstrStatus, bool pblScreenShot, bool pblHardStop = false, string pstrHardStopMsg = "")
         {
             MediaEntityModelProvider ss = null;
@@ -183,6 +208,10 @@ namespace AutomationLibrary
             objTest.Log(pstrStatus, pstrDescription, ss);
         }
 
+        /// <summary>
+        /// Takes a screenshot during  execution time
+        /// </summary>
+        /// <returns></returns>
         public static string fnGetScreenshot()
         {
             string strSCName = "SC_" + ClsDataDriven.strProjectName + "_" + DateTime.Now.ToString("MMddyyyy_hhmmss");

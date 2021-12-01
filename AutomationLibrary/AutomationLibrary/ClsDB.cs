@@ -14,6 +14,15 @@ namespace AutomationLibrary
         private OracleConnection conn;
         private static string strConnection;
 
+        /// <summary>
+        /// Returns the string connection for based on the parameters provided
+        /// </summary>
+        /// <param name="strHost"></param>
+        /// <param name="strPort"></param>
+        /// <param name="strService"></param>
+        /// <param name="strUser"></param>
+        /// <param name="strPassword"></param>
+        /// <returns></returns>
         public string GetConnectionString(string strHost, string strPort, string strService, string strUser, string strPassword)
         {
             strConnection = "Data Source=" +
@@ -29,6 +38,10 @@ namespace AutomationLibrary
             return strConnection;
         }
 
+        /// <summary>
+        /// Opens a connection for DB
+        /// </summary>
+        /// <param name="pstrConnection"></param>
         public void fnOpenConnection(string pstrConnection)
         {
             try
@@ -42,6 +55,9 @@ namespace AutomationLibrary
             }
         }
 
+        /// <summary>
+        /// Close a connection DB
+        /// </summary>
         public void fnCloseConnection()
         {
             try
@@ -55,6 +71,10 @@ namespace AutomationLibrary
             }
         }
 
+        /// <summary>
+        /// Executes a query and  close the connection
+        /// </summary>
+        /// <param name="pstrQuery"></param>
         public void fnExecuteQuery(string pstrQuery)
         {
             try
@@ -70,6 +90,11 @@ namespace AutomationLibrary
             }
         }
 
+        /// <summary>
+        /// Returns a data reader with teh result of a query
+        /// </summary>
+        /// <param name="pstrQuery"></param>
+        /// <returns></returns>
         public DbDataReader fnDataReader(string pstrQuery)
         {
             try
@@ -87,6 +112,11 @@ namespace AutomationLibrary
             }
         }
 
+        /// <summary>
+        /// Returns a datatable with the results of a query
+        /// </summary>
+        /// <param name="pstrQuery"></param>
+        /// <returns></returns>
         public DataTable fnDataSet(string pstrQuery)
         {
             try
@@ -108,6 +138,11 @@ namespace AutomationLibrary
             }
         }
 
+        /// <summary>
+        /// Returns only one value of a query
+        /// </summary>
+        /// <param name="pstrQuery"></param>
+        /// <returns></returns>
         public String fnGetSingleValue(string pstrQuery)
         {
             string strValue;

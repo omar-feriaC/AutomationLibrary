@@ -33,9 +33,16 @@ namespace AutomationLibrary
         public static int intCountY;
 
 
-
+        /// <summary>
+        /// Define the path for automation project settings
+        /// </summary>
         public static string strConfigFile = ClsVariables.strGlobalConfigFile;
 
+
+        /// <summary>
+        /// Open the excel file for settings
+        /// </summary>
+        /// <param name="blRead"></param>
         public void fnOpenExcel(bool blRead = true)
         {
             objExcel = new Application();
@@ -45,6 +52,9 @@ namespace AutomationLibrary
                                             Type.Missing, Type.Missing);
         }
 
+        /// <summary>
+        /// Close the instance of the excel readed
+        /// </summary>
         public void fnCloseExcel()
         {
             objExcel.DisplayAlerts = false;
@@ -53,24 +63,20 @@ namespace AutomationLibrary
             objExcel.Quit();
         }
 
+        /// <summary>
+        /// Setup the machine to run the scripts
+        /// </summary>
+        /// <returns></returns>
         public bool fnAutomationSettings()
         {
-            //try
-            //{
-            //    fnExcelMethod();
-            //}
-            //catch (Exception pobjException) 
-            //{
-            //    fnSSLightMethod();
-            //}
-
             fnSSLightMethod();
-
             fnFolderSetup();
-
             return blExecutionFlag;
         }
 
+        /// <summary>
+        /// Read the Executions on excel file
+        /// </summary>
         public void fnExcelMethod()
         {
 
@@ -189,6 +195,9 @@ namespace AutomationLibrary
 
             fnCloseExcel();
         }
+        /// <summary>
+        /// Generates the folder for the report generated
+        /// </summary>
         public void fnFolderSetup()
         {
 
@@ -214,6 +223,9 @@ namespace AutomationLibrary
             }
         }
 
+        /// <summary>
+        /// Read the configuration sheet and get the data
+        /// </summary>
         public void fnSSLightMethod()
         {
             //Configuration
