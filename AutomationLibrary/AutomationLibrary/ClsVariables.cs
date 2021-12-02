@@ -15,7 +15,17 @@ namespace AutomationLibrary
         {
             get
             {
-                var blLocalExecution = Environment.GetEnvironmentVariables()["GI_Env_Variable"].ToString().ToUpper();
+                string blLocalExecution = null;
+                try
+                {
+                    blLocalExecution = Environment.GetEnvironmentVariable("GI_Env_Variable");
+
+                }
+                catch (NullReferenceException)
+                {
+                    //Ignore and continue
+                }
+
                 string path;
                 switch (blLocalExecution)
                 {
