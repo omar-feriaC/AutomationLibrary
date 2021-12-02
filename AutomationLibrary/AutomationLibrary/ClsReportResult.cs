@@ -177,12 +177,16 @@ namespace AutomationLibrary
             objTest.Log(pstrStatus, pstrDescription, ss);
         }
 
+        /// <summary>
+        /// Fails the current test scenario by closing the browser and throwing an exception
+        /// </summary>
+        /// <param name="pstrMessage"></param>
+        /// <returns></returns>
         public static string fnAssertFail(string pstrMessage)
         {
             TC_Status = false;
-            var pstrHardStopMsg = $"Assertion Failed: {pstrMessage}";
             ClsWebBrowser.fnCloseBrowser();
-            throw new Exception(pstrHardStopMsg);
+            throw new Exception($"Assertion Failed: {pstrMessage}");
         }
 
         /// <summary>
