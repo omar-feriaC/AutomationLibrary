@@ -180,9 +180,8 @@ namespace AutomationLibrary
         /// <summary>
         /// Fails the current test scenario by closing the browser and throwing an exception
         /// </summary>
-        /// <param name="pstrMessage"></param>
-        /// <returns></returns>
-        public static string fnAssertFail(string pstrMessage)
+        /// <param name="pstrMessage">Fail message</param>
+        public static void fnAssertFail(string pstrMessage)
         {
             TC_Status = false;
             ClsWebBrowser.fnCloseBrowser();
