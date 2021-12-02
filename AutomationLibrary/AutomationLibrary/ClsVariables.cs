@@ -18,7 +18,7 @@ namespace AutomationLibrary
                 string blLocalExecution = null;
                 try
                 {
-                    blLocalExecution = Environment.GetEnvironmentVariable("GI_Env_Variable");
+                    blLocalExecution = Environment.GetEnvironmentVariable("GI_Env_Variable").ToUpper();
 
                 }
                 catch (NullReferenceException)
