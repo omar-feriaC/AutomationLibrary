@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AutomationLibrary
 {
-    public class ClsVariables
+    public static class ClsVariables
     {
         /// <summary>
         /// Constant to define the Automation Setting driver
@@ -15,7 +15,7 @@ namespace AutomationLibrary
         {
             get
             {
-                var blLocalExecution = Environment.GetEnvironmentVariable("GI_Env_Variable").ToUpper();
+                var blLocalExecution = Environment.GetEnvironmentVariables()["GI_Env_Variable"].ToString().ToUpper();
                 string path;
                 switch (blLocalExecution)
                 {

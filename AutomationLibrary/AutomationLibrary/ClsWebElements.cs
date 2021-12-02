@@ -177,11 +177,11 @@ namespace AutomationLibrary
                 switch (pstrOption)
                 {
                     case "ElementExists":
-                        objWebElement = objExplicitWait.Until(ExpectedConditions.ElementExists(by));
+                        objWebElement = objExplicitWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(by));
                         pblStatus = true;
                         break;
                     case "ElementVisible":
-                        objWebElement = objExplicitWait.Until(ExpectedConditions.ElementIsVisible(by));
+                        objWebElement = objExplicitWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by));
                         pblStatus = true;
                         break;
                 }
@@ -214,11 +214,11 @@ namespace AutomationLibrary
                 switch (pstrOption)
                 {
                     case "ElementExists":
-                        objWebElement = objExplicitWait.Until(ExpectedConditions.ElementExists(By.XPath(pstrLocator)));
+                        objWebElement = objExplicitWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath(pstrLocator)));
                         pblStatus = true;
                         break;
                     case "ElementVisible":
-                        objWebElement = objExplicitWait.Until(ExpectedConditions.ElementIsVisible(By.XPath(pstrLocator)));
+                        objWebElement = objExplicitWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(pstrLocator)));
                         pblStatus = true;
                         break;
                 }
@@ -885,7 +885,7 @@ namespace AutomationLibrary
             {
                 objExplicitWait = new WebDriverWait(ClsWebBrowser.objDriver, TimeSpan.FromSeconds(Timeout));
                 objExplicitWait.IgnoreExceptionTypes(typeof(WebDriverTimeoutException));
-                objWebElement = objExplicitWait.Until(ExpectedConditions.ElementToBeClickable(by));
+                objWebElement = objExplicitWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(by));
                 pblStatus = true;
                 return pblStatus;
 

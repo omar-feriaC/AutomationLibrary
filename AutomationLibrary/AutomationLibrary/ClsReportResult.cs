@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AutomationLibrary
 {
-    public class ClsReportResult
+    public static class ClsReportResult
     {
         
         public static ExtentReports objExtent;
