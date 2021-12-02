@@ -259,7 +259,7 @@ namespace AutomationLibrary
             }
             catch (Exception pobjException)
             {
-                ClsReportResult.fnLog("PageLoadFail", "The Page is not loaded for the Page: " + pstrPage, Status.Fail, true, pblHardStop, pstrHardStopMsg);
+                ClsReportResult.fnLog("PageLoadFail", "The Page is not loaded for the Page: " + pstrPage, Status.Fail, true);
                 fnExceptionHandling(pobjException);
             }
             return blResult;
@@ -285,12 +285,12 @@ namespace AutomationLibrary
                 ClsReportResult.fnLog("SendKeys", "Step - Sendkeys: " + pstrTextEnter + " to field: " + pstrField, Status.Info, false);
                 strAction = "SendKeys";
                 fnGetFluentWait(pobjWebElement, strAction, pstrTextEnter);
-                ClsReportResult.fnLog("SendKeysPass", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " was done successfully.", Status.Pass, pblScreenShot, pblHardStop);
+                ClsReportResult.fnLog("SendKeysPass", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " was done successfully.", Status.Pass, pblScreenShot);
                 blResult = true;
             }
             catch (Exception pobjException)
             {
-                ClsReportResult.fnLog("SendKeysFail", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " has failed.", Status.Fail, true, pblHardStop, pstrHardStopMsg);
+                ClsReportResult.fnLog("SendKeysFail", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " has failed.", Status.Fail, true);
                 fnExceptionHandling(pobjException);
             }
             return blResult;
@@ -306,7 +306,7 @@ namespace AutomationLibrary
         /// <param name="pblHardStop"></param>
         /// <param name="pstrHardStopMsg"></param>
         /// <returns></returns>
-        public static bool fnCustomSendKeys(IWebElement pobjWebElement, string pstrField, string pstrTextEnter, bool pblScreenShot = true, bool pblHardStop = false, string pstrHardStopMsg = "SendKeys Failed and HardStop defined")
+        public static bool fnCustomSendKeys(IWebElement pobjWebElement, string pstrField, string pstrTextEnter, bool pblScreenShot = true)
         {
             //ClsReportResult clsRR = new clsReportResult();
             bool blResult = false;
@@ -316,12 +316,12 @@ namespace AutomationLibrary
                 ClsReportResult.fnLog("SendKeys", "Step - Sendkeys: " + pstrTextEnter + " to field: " + pstrField, Status.Info, false);
                 strAction = "CustomSendKeys";
                 fnGetFluentWait(pobjWebElement, strAction, pstrTextEnter);
-                ClsReportResult.fnLog("SendKeysPass", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " was done successfully.", Status.Pass, pblScreenShot, pblHardStop);
+                ClsReportResult.fnLog("SendKeysPass", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " was done successfully.", Status.Pass, pblScreenShot);
                 blResult = true;
             }
             catch (Exception pobjException)
             {
-                ClsReportResult.fnLog("SendKeysFail", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " has failed.", Status.Fail, true, pblHardStop, pstrHardStopMsg);
+                ClsReportResult.fnLog("SendKeysFail", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " has failed.", Status.Fail, true);
                 fnExceptionHandling(pobjException);
             }
             return blResult;
@@ -349,7 +349,7 @@ namespace AutomationLibrary
             }
             catch (Exception pobjException)
             {
-                ClsReportResult.fnLog("ClickFail", "The click to the element is not working for: " + pstrElement, Status.Fail, true, pblHardStop, pstrHardStopMsg);
+                ClsReportResult.fnLog("ClickFail", "The click to the element is not working for: " + pstrElement, Status.Fail, true);
                 fnExceptionHandling(pobjException);
             }
             return blResult;
@@ -379,7 +379,7 @@ namespace AutomationLibrary
             }
             catch (Exception pobjException)
             {
-                ClsReportResult.fnLog("DoubleClickPass", "Couldn't Double Click on " + pstrElement, Status.Fail, true, pblHardStop, pstrHardStopMsg);
+                ClsReportResult.fnLog("DoubleClickPass", "Couldn't Double Click on " + pstrElement, Status.Fail, true);
                 fnExceptionHandling(pobjException);
             }
             return blResult;
@@ -669,7 +669,7 @@ namespace AutomationLibrary
             }
             catch (Exception pobjException)
             {
-                ClsReportResult.fnLog("SelectListFail", pstrStepName, Status.Fail, true, pblHardStop, pstrHardStopMsg);
+                ClsReportResult.fnLog("SelectListFail", pstrStepName, Status.Fail, true);
                 fnExceptionHandling(pobjException);
             }
             return blResult;
@@ -702,7 +702,7 @@ namespace AutomationLibrary
             }
             catch (Exception pobjException)
             {
-                fnExceptionHandling(pobjException, pstrStepName, pblHardStop, pstrHardStopMsg);
+                fnExceptionHandling(pobjException, pstrStepName);
             }
             return blResult;
         }
@@ -730,7 +730,7 @@ namespace AutomationLibrary
             }
             catch (Exception pobjException)
             {
-                ClsReportResult.fnLog("SelectCheckBoxFail", pstrStepName, Status.Fail, true, pblHardStop, pstrHardStopMsg);
+                ClsReportResult.fnLog("SelectCheckBoxFail", pstrStepName, Status.Fail, true);
                 fnExceptionHandling(pobjException);
             }
             return blResult;
@@ -764,7 +764,7 @@ namespace AutomationLibrary
             }
             catch (Exception pobjException)
             {
-                fnExceptionHandling(pobjException, pstrStepName, pblHardStop, pstrHardStopMsg);
+                fnExceptionHandling(pobjException, pstrStepName);
             }
             return blResult;
         }
@@ -812,7 +812,7 @@ namespace AutomationLibrary
 
                 if (blElementsFound)
                 {
-                    ClsReportResult.fnLog("VerifyListPass", "All Elements from the List are Displayed", Status.Pass, pblScreenShot, pblHardStop);
+                    ClsReportResult.fnLog("VerifyListPass", "All Elements from the List are Displayed", Status.Pass, pblScreenShot);
                     blResult = true;
                 }
                 else
@@ -820,8 +820,8 @@ namespace AutomationLibrary
             }
             catch (Exception pobjException)
             {
-                ClsReportResult.fnLog("VerifyListPass", "Some Elements from the List are not Displayed", Status.Fail, pblScreenShot, pblHardStop);
-                fnExceptionHandling(pobjException, pstrStepName, pblHardStop, pstrHardStopMsg);
+                ClsReportResult.fnLog("VerifyListPass", "Some Elements from the List are not Displayed", Status.Fail, pblScreenShot);
+                fnExceptionHandling(pobjException, pstrStepName);
             }
             return blResult;
         }
@@ -845,7 +845,7 @@ namespace AutomationLibrary
             }
             catch (Exception pobjException)
             {
-                ClsReportResult.fnLog("ScrollToFailed", "Failed Scroll to element: " + pstrField, Status.Fail, true, pblHardStop, pstrHardStopMsg);
+                ClsReportResult.fnLog("ScrollToFailed", "Failed Scroll to element: " + pstrField, Status.Fail, true);
                 fnExceptionHandling(pobjException);
             }
         }
@@ -866,7 +866,7 @@ namespace AutomationLibrary
             }
             catch (Exception pobjException)
             {
-                ClsReportResult.fnLog("ScrollToFailed", "Failed Scroll to element: " + pstrField, Status.Fail, true, pblHardStop, pstrHardStopMsg);
+                ClsReportResult.fnLog("ScrollToFailed", "Failed Scroll to element: " + pstrField, Status.Fail, true);
                 fnExceptionHandling(pobjException);
             }
         }
@@ -903,28 +903,28 @@ namespace AutomationLibrary
             switch (pobjException.Message.ToString())
             {
                 case "SendKeysFail":
-                    ClsReportResult.fnLog("SendKeysFail", "SendKeys action Fail", Status.Fail, true, pblHardStop, pstrHardStopMsg);
+                    ClsReportResult.fnLog("SendKeysFail", "SendKeys action Fail", Status.Fail, true);
                     break;
                 case "ClearFail":
-                    ClsReportResult.fnLog("ClearFail", "Clear action Fail", Status.Fail, true, pblHardStop, pstrHardStopMsg);
+                    ClsReportResult.fnLog("ClearFail", "Clear action Fail", Status.Fail, true);
                     break;
                 case "ElementExistFail":
-                    ClsReportResult.fnLog("ElementExistFail", "Element exist verification failed", Status.Fail, true, pblHardStop, pstrHardStopMsg);
+                    ClsReportResult.fnLog("ElementExistFail", "Element exist verification failed", Status.Fail, true);
                     break;
                 case "ElementNotExistFail":
-                    ClsReportResult.fnLog("ElementNotExistFail", "Element not exist verification failed", Status.Fail, true, pblHardStop, pstrHardStopMsg);
+                    ClsReportResult.fnLog("ElementNotExistFail", "Element not exist verification failed", Status.Fail, true);
                     break;
                 case "ContainsTextFail":
-                    ClsReportResult.fnLog("ContainsTextFail", "Contains text verification failed", Status.Fail, true, pblHardStop, pstrHardStopMsg);
+                    ClsReportResult.fnLog("ContainsTextFail", "Contains text verification failed", Status.Fail, true);
                     break;
                 case "VerifyTextFail":
-                    ClsReportResult.fnLog("VerifyTextFail", "Verify text verification failed", Status.Fail, true, pblHardStop, pstrHardStopMsg);
+                    ClsReportResult.fnLog("VerifyTextFail", "Verify text verification failed", Status.Fail, true);
                     break;
                 case "VerifySelectedItemFail":
-                    ClsReportResult.fnLog("SelectedItemFail", "Coverage selected verification failed", Status.Fail, true, pblHardStop, pstrHardStopMsg);
+                    ClsReportResult.fnLog("SelectedItemFail", "Coverage selected verification failed", Status.Fail, true);
                     break;
                 case "SelectRadioBtnFail":
-                    ClsReportResult.fnLog("SelectRadioBtnFail", "Select Radio Button verification failed", Status.Fail, true, pblHardStop, pstrHardStopMsg);
+                    ClsReportResult.fnLog("SelectRadioBtnFail", "Select Radio Button verification failed", Status.Fail, true);
                     break;
                 case "Timed out after 10 seconds":
                     if (pobjException.InnerException.ToString().Contains("no such element: Unable to locate element"))
@@ -933,7 +933,7 @@ namespace AutomationLibrary
                     }
                     break;
                 default:
-                    ClsReportResult.fnLog("Exception", $"{pstrStepName}, Exception => Message({pobjException.Message.ToString()}), Stack Trace({pobjException.StackTrace.ToString()})", Status.Fail, true, pblHardStop, pstrHardStopMsg);
+                    ClsReportResult.fnLog("Exception", $"{pstrStepName}, Exception => Message({pobjException.Message.ToString()}), Stack Trace({pobjException.StackTrace.ToString()})", Status.Fail, true);
                     break;
             }
         }
