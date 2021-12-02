@@ -164,6 +164,21 @@ namespace AutomationLibrary
         /// <param name="pstrDescription"></param>
         /// <param name="pstrStatus"></param>
         /// <param name="pblScreenShot"></param>
+        /// <param name="pblHardStop"></param>
+        /// <param name="pstrHardStopMsg"></param>
+        [Obsolete("This method will be deleted soon, use fnLog(string pstrStepName, string pstrDescription, Status pstrStatus, bool pblScreenShot) instead")]
+        public static void fnLog(string pstrStepName, string pstrDescription, Status pstrStatus, bool pblScreenShot, bool pblHardStop = false, string pstrHardStopMsg = "")
+        {
+            fnLog(pstrStepName, pstrDescription, pstrStatus, pblScreenShot);
+        }
+
+        /// <summary>
+        /// Create a log step and optional takes the screenshot
+        /// </summary>
+        /// <param name="pstrStepName"></param>
+        /// <param name="pstrDescription"></param>
+        /// <param name="pstrStatus"></param>
+        /// <param name="pblScreenShot"></param>
         public static void fnLog(string pstrStepName, string pstrDescription, Status pstrStatus, bool pblScreenShot)
         {
             MediaEntityModelProvider ss = null;
