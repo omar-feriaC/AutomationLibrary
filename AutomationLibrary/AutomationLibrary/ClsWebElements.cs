@@ -124,6 +124,8 @@ namespace AutomationLibrary
         /// <returns></returns>
         public static object fnGetFluentWait(IWebElement pobjWebElement, string pstrAction, string pstrTextEnter = "", int Timeout = 5)
         {
+            if (pobjWebElement == null) throw new NullReferenceException("Please make sure to send a not null WebElement instance before calling this function");
+
             objFluentWait = new DefaultWait<IWebDriver>(ClsWebBrowser.objDriver);
             objFluentWait.Timeout = TimeSpan.FromSeconds(Timeout);
             objFluentWait.PollingInterval = TimeSpan.FromMilliseconds(250);
@@ -243,6 +245,8 @@ namespace AutomationLibrary
         /// <returns></returns>
         public static bool fnPageLoad(IWebElement pobjWebElement, string pstrPage, bool pblScreenShot = true, bool pblHardStop = false, string pstrHardStopMsg = "PageLoad Failed and HardStop defined")
         {
+            if (pobjWebElement == null) throw new NullReferenceException("Please make sure to send a not null WebElement instance before calling this function");
+
             //ClsReportResult clsRR = new clsReportResult();
             bool blResult = false;
             try
