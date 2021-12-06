@@ -256,8 +256,33 @@ namespace AutomationLibrary
                 IJavaScriptExecutor objJS = (IJavaScriptExecutor)ClsWebBrowser.objDriver;
                 IWait<IWebDriver> wait = new WebDriverWait(ClsWebBrowser.objDriver, TimeSpan.FromSeconds(10));
                 wait.Until(wd => objJS.ExecuteScript("return document.readyState").ToString() == "complete");
-
                 fnGetFluentWait(pobjWebElement, strAction);
+                ClsReportResult.fnLog("PageLoadPass", "The Page is loaded for the Page: " + pstrPage, Status.Pass, pblScreenShot);
+                blResult = true;
+            }
+            catch (Exception pobjException)
+            {
+                ClsReportResult.fnLog("PageLoadFail", "The Page is not loaded for the Page: " + pstrPage, Status.Fail, true);
+                fnExceptionHandling(pobjException);
+            }
+            return blResult;
+        }
+
+        public static bool fnPageLoad(By by, string pstrPage, bool pblScreenShot = true, bool pblHardStop = false, string pstrHardStopMsg = "PageLoad Failed and HardStop defined")
+        {
+            //if (pobjWebElement == null) throw new NullReferenceException("Please make sure to send a not null WebElement instance before calling this function");
+
+            //ClsReportResult clsRR = new clsReportResult();
+            bool blResult = false;
+            try
+            {
+                ClsReportResult.fnLog("PageLoad", "Step - PageLoad in Page: " + pstrPage, Status.Info, false);
+                strAction = "Displayed";
+                IJavaScriptExecutor objJS = (IJavaScriptExecutor)ClsWebBrowser.objDriver;
+                IWait<IWebDriver> wait = new WebDriverWait(ClsWebBrowser.objDriver, TimeSpan.FromSeconds(10));
+                wait.Until(wd => objJS.ExecuteScript("return document.readyState").ToString() == "complete");
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(by));
+                fnGetFluentWait(ClsWebElements.fnGetWebElement(by), strAction);
                 ClsReportResult.fnLog("PageLoadPass", "The Page is loaded for the Page: " + pstrPage, Status.Pass, pblScreenShot);
                 blResult = true;
             }
