@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace AutomationLibrary
     {
         //private static readonly IDictionary<string, IWebDriver> dicDrivers = new Dictionary<string, IWebDriver>();
         private static IWebDriver _objDriver;
+        private static WebDriverWait _wait;
 
         /// <summary>
         /// Represents an instance of webdriver
@@ -43,6 +45,8 @@ namespace AutomationLibrary
                     optionsChrome.AddArgument("no-sandbox");
                     _objDriver = new ChromeDriver(ChromeDriverService.CreateDefaultService(), optionsChrome, TimeSpan.FromMinutes(3));
                     _objDriver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
+                    _wait = new WebDriverWait(_objDriver, TimeSpan.FromSeconds(5));
+                    _objDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
                     _objDriver.Manage().Window.Maximize();
                     //dicDrivers.Add("Chrome", objDriver);
                     break;
@@ -54,6 +58,8 @@ namespace AutomationLibrary
                     #pragma warning restore CS0618 // Type or member is obsolete
                     objDriver = new OpenQA.Selenium.Edge.EdgeDriver(OpenQA.Selenium.Edge.EdgeDriverService.CreateDefaultService(strDriverPath), optionsEdge, TimeSpan.FromMinutes(3));
                     objDriver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
+                    _wait = new WebDriverWait(_objDriver, TimeSpan.FromSeconds(5));
+                    _objDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
                     objDriver.Manage().Window.Maximize();
                     //dicDrivers.Add("Edge", objDriver);
                     break;
