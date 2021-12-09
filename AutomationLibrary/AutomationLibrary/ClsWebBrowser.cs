@@ -55,6 +55,7 @@ namespace AutomationLibrary
                     break;
                 case "HEADLESSCHROME":
                     var optionsHeadlessChrome = new ChromeOptions();
+                    optionsHeadlessChrome.AddArgument("no-sandbox");
                     optionsHeadlessChrome.AddArgument("window-size=1920,1080");
                     optionsHeadlessChrome.AddArgument("--headless");
 
