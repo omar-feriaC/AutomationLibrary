@@ -43,12 +43,28 @@ namespace AutomationLibrary
                 case "CHROME":
                     ChromeOptions optionsChrome = new ChromeOptions();
                     optionsChrome.AddArgument("no-sandbox");
+                    optionsChrome.AddArgument("start-maximized");
+
                     _objDriver = new ChromeDriver(ChromeDriverService.CreateDefaultService(), optionsChrome, TimeSpan.FromMinutes(3));
+
                     _objDriver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
                     _wait = new WebDriverWait(_objDriver, TimeSpan.FromSeconds(5));
                     _objDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
                     _objDriver.Manage().Window.Maximize();
                     //dicDrivers.Add("Chrome", objDriver);
+                    break;
+                case "HEADLESSCHROME":
+                    var optionsHeadlessChrome = new ChromeOptions();
+                    optionsHeadlessChrome.AddArgument("window-size=1920,1080");
+                    optionsHeadlessChrome.AddArgument("--headless");
+
+                    _objDriver = new ChromeDriver(ChromeDriverService.CreateDefaultService(), optionsHeadlessChrome, TimeSpan.FromMinutes(3));
+
+                    //TODO: Next steps can be optimized
+                    _objDriver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
+                    _objDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+                    _objDriver.Manage().Window.Maximize();
+
                     break;
                 case "EDGE":
                     var strDriverPath = "Provide your path";
