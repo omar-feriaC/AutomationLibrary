@@ -188,6 +188,12 @@ namespace AutomationLibrary
                 ss = MediaEntityBuilder.CreateScreenCaptureFromPath(strSCLocation).Build();
             }
 
+            if (pstrStatus == Status.Fail) 
+            {
+                TC_Status = false;
+            }
+              
+
             TestContext.Progress.WriteLine($"{pstrStepName}: {pstrDescription}");
             objTest.Log(pstrStatus, pstrDescription, ss);
         }
