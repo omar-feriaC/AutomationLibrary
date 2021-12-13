@@ -192,10 +192,9 @@ namespace AutomationLibrary
             {
                 TC_Status = false;
             }
-              
 
             TestContext.Progress.WriteLine($"{pstrStepName}: {pstrDescription}");
-            objTest.Log(pstrStatus, pstrDescription, ss);
+            objTest.Log(pstrStatus == Status.Skip ? Status.Info : pstrStatus, pstrDescription, ss);
         }
 
         /// <summary>
