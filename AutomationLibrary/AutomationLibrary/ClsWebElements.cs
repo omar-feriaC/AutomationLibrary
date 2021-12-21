@@ -867,7 +867,7 @@ namespace AutomationLibrary
                 ClsReportResult.fnLog("ScrollTo", "Step - Scroll to element: " + pstrField, Status.Info, false);
                 Thread.Sleep(TimeSpan.FromSeconds(2));
                 new Actions(ClsWebBrowser.objDriver)
-                    .MoveToElement(pobjWebElement)
+                    .MoveToElement(pobjWebElement,,)
                     .Build()
                     .Perform();
                 ClsReportResult.fnLog("ScrollToPass", "Scrolled to element: " + pstrField, Status.Pass, pblScreenShot);
@@ -884,7 +884,7 @@ namespace AutomationLibrary
         /// </summary>
         /// <param name="driver">The WebDriver</param>
         /// <param name="element">The elelemt to scroll to</param>
-        public static void fnJsScrollTo(IWebElement pobjWebElement, string pstrField, bool pblScreenShot = true, bool pblHardStop = false, string pstrHardStopMsg = "Scroll To Failed and HardStop defined", bool alignToTop = false)
+        public static void fnJsScrollTo(IWebElement pobjWebElement, string pstrField, bool pblScreenShot = true, bool alignToTop = false)
         {
             //ClsReportResult clsRR = new clsReportResult();
             try
@@ -898,6 +898,17 @@ namespace AutomationLibrary
                 ClsReportResult.fnLog("ScrollToFailed", "Failed Scroll to element: " + pstrField, Status.Fail, true);
                 fnExceptionHandling(pobjException);
             }
+        }
+
+        /// <summary>
+        /// Created to scroll in pages as needed and make a specific element visible in the middle of the screen, Javascript version
+        /// </summary>
+        /// <param name="driver">The WebDriver</param>
+        /// <param name="element">The elelemt to scroll to</param>
+        public static void fnJsScrollToIntoMiddle(IWebElement pobjWebElement, string pstrField, bool pblScreenShot = true)
+        {
+            var scrollElementIntoMiddle = "var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0); var elementTop = arguments[0].getBoundingClientRect().top; window.scrollBy(0, elementTop-(viewPortHeight/2));";
+            ((IJavaScriptExecutor)ClsWebBrowser.objDriver).ExecuteScript(scrollElementIntoMiddle, pobjWebElement);
         }
 
         /// <summary>
