@@ -907,8 +907,18 @@ namespace AutomationLibrary
         /// <param name="element">The elelemt to scroll to</param>
         public static void fnJsScrollToIntoMiddle(IWebElement pobjWebElement, string pstrField, bool pblScreenShot = true)
         {
-            var scrollElementIntoMiddle = "var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0); var elementTop = arguments[0].getBoundingClientRect().top; window.scrollBy(0, elementTop-(viewPortHeight/2));";
-            ((IJavaScriptExecutor)ClsWebBrowser.objDriver).ExecuteScript(scrollElementIntoMiddle, pobjWebElement);
+            try
+            {
+                ClsReportResult.fnLog("ScrollTo", "Step - Scroll to element: " + pstrField, Status.Info, false);
+                var scrollElementIntoMiddle = "var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0); var elementTop = arguments[0].getBoundingClientRect().top; window.scrollBy(0, elementTop-(viewPortHeight/2));";
+                ((IJavaScriptExecutor)ClsWebBrowser.objDriver).ExecuteScript(scrollElementIntoMiddle, pobjWebElement);
+                ClsReportResult.fnLog("ScrollToPass", "Scrolled to element: " + pstrField, Status.Pass, pblScreenShot);
+            }
+            catch (Exception pobjException)
+            {
+                ClsReportResult.fnLog("ScrollToFailed", "Failed Scroll to element: " + pstrField, Status.Fail, true);
+                fnExceptionHandling(pobjException);
+            }
         }
 
         /// <summary>
