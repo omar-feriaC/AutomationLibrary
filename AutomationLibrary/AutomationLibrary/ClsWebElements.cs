@@ -867,7 +867,7 @@ namespace AutomationLibrary
                 ClsReportResult.fnLog("ScrollTo", "Step - Scroll to element: " + pstrField, Status.Info, false);
                 Thread.Sleep(TimeSpan.FromSeconds(2));
                 new Actions(ClsWebBrowser.objDriver)
-                    .MoveToElement(pobjWebElement,,)
+                    .MoveToElement(pobjWebElement)
                     .Build()
                     .Perform();
                 ClsReportResult.fnLog("ScrollToPass", "Scrolled to element: " + pstrField, Status.Pass, pblScreenShot);
