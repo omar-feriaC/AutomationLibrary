@@ -204,7 +204,7 @@ namespace AutomationLibrary
         public static void fnAssertFail(string pstrMessage)
         {
             TC_Status = false;
-            ClsWebBrowser.fnCloseBrowser();
+            //ClsWebBrowser.fnCloseBrowser();
             throw new Exception($"Assertion Failed: {pstrMessage}");
         }
 
