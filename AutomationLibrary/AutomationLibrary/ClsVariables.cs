@@ -9,36 +9,30 @@ namespace AutomationLibrary
     public static class ClsVariables
     {
         /// <summary>
-        /// Constant to define the Automation Setting driver
+        /// Boolean that defines if the current execution is local
         /// </summary>
-        public static string strGlobalConfigFile
+        public static bool blLocalExecution
         {
             get
             {
-                string blLocalExecution = null;
+                string strLocalExecution = null;
                 try
                 {
-                    blLocalExecution = Environment.GetEnvironmentVariable("GI_Env_Variable").ToUpper();
-
+                    strLocalExecution = Environment.GetEnvironmentVariable("GI_Env_Variable").ToUpper();
                 }
                 catch (NullReferenceException)
                 {
                     //Ignore and continue
                 }
 
-                string path;
-                switch (blLocalExecution)
-                {
-                    case "LOCAL":
-                        path = @"C:\AutomationProjects\AutomationSettings.xlsx";
-                        break;
-                    default:
-                        path = @"H:\Any\4th_Automation\GlobalIntakeDriver\AutomationSettings.xlsx";
-                        break;
-                }
-                return path;
+                return strLocalExecution.Equals("Local", StringComparison.OrdinalIgnoreCase);
             }
         }
+
+        /// <summary>
+        /// Constant to define the Automation Setting driver
+        /// </summary>
+        public static string strGlobalConfigFile => blLocalExecution ? @"C:\AutomationProjects\AutomationSettings.xlsx" : @"H:\Any\4th_Automation\GlobalIntakeDriver\AutomationSettings.xlsx";
 
         /// <summary>
         /// Constant static for Edge Driver
