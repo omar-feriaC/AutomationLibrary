@@ -22,7 +22,8 @@ namespace AutomationLibrary
                 }
                 catch (NullReferenceException)
                 {
-                    //Ignore and continue
+                    //If variable is not defined, will return false by default
+                    return false;
                 }
 
                 return strLocalExecution.Equals("Local", StringComparison.OrdinalIgnoreCase);
