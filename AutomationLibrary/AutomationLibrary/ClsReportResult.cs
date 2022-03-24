@@ -18,6 +18,7 @@ namespace AutomationLibrary
         public static ExtentTest objTest;
         public static ExtentV3HtmlReporter objHtmlReporter;
         public static bool TC_Status;
+        public static bool isWarning;
 
         /// <summary>
         /// Setup tjhe intance of extent reports object
@@ -126,6 +127,7 @@ namespace AutomationLibrary
                         objTest.Log(Status.Info, pstrDescription, MediaEntityBuilder.CreateScreenCaptureFromPath(strSCLocation).Build());
                         break;
                     case "WARNING":
+                        isWarning = true;
                         TestContext.Progress.WriteLine($"{pstrDescription} - Warning");
                         objTest.Log(Status.Warning, pstrDescription, MediaEntityBuilder.CreateScreenCaptureFromPath(strSCLocation).Build());
                         break;
@@ -150,6 +152,7 @@ namespace AutomationLibrary
                         objTest.Log(Status.Info, pstrDescription);
                         break;
                     case "WARNING":
+                        isWarning = true;
                         TestContext.Progress.WriteLine($"{pstrDescription} - Warning");
                         objTest.Log(Status.Info, pstrDescription);
                         break;
@@ -188,10 +191,9 @@ namespace AutomationLibrary
                 ss = MediaEntityBuilder.CreateScreenCaptureFromPath(strSCLocation).Build();
             }
 
-            if (pstrStatus == Status.Fail) 
-            {
-                TC_Status = false;
-            }
+            if (pstrStatus == Status.Fail) { TC_Status = false; }
+
+            if (pstrStatus == Status.Warning) { isWarning = true; }
 
             TestContext.Progress.WriteLine($"{pstrStepName}: {pstrDescription}");
             objTest.Log(pstrStatus == Status.Skip ? Status.Info : pstrStatus, pstrDescription, ss);
