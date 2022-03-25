@@ -967,10 +967,10 @@ namespace AutomationLibrary
                     ClsReportResult.fnLog("ClearFail", "Clear action Fail", Status.Warning, true);
                     break;
                 case "ElementExistFail":
-                    ClsReportResult.fnLog("ElementExistFail", "Element exist verification failed", Status.Warning, true);
+                    ClsReportResult.fnLog("ElementExistFail", "Element exist verification failed", Status.Fail, true);
                     break;
                 case "ElementNotExistFail":
-                    ClsReportResult.fnLog("ElementNotExistFail", "Element not exist verification failed", Status.Warning, true);
+                    ClsReportResult.fnLog("ElementNotExistFail", "Element not exist verification failed", Status.Fail, true);
                     break;
                 case "ContainsTextFail":
                     ClsReportResult.fnLog("ContainsTextFail", "Contains text verification failed", Status.Warning, true);
@@ -991,7 +991,7 @@ namespace AutomationLibrary
                     }
                     break;
                 default:
-                    ClsReportResult.fnLog("Exception", $"{pstrStepName}, Exception => Message({pobjException.Message.ToString()}), Stack Trace({pobjException.StackTrace.ToString()})", Status.Warning, true);
+                    ClsReportResult.fnLog("Exception", $"{pstrStepName}, Exception => Message({pobjException.Message.ToString()}), Stack Trace({pobjException.StackTrace.ToString()})", Status.Fail, true);
                     break;
             }
         }
