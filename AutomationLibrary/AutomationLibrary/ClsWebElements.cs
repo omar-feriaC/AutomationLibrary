@@ -355,6 +355,17 @@ namespace AutomationLibrary
         }
 
         /// <summary>
+        /// Wait for element to be present in the current page.
+        /// </summary>
+        /// <param name="pLocator"></param>
+        /// <param name="pTimeToWait"></param>
+        /// <returns></returns>
+        public static bool fnWaitUntilElementPresent(string pLocator, TimeSpan? pTimeToWait = null)
+        {
+            return fnWaitUntilElementPresent(By.XPath(pLocator), pTimeToWait);
+        }
+
+        /// <summary>
         /// Wait for element to be visible in the current page.
         /// </summary>
         /// <param name="by"></param>
@@ -372,6 +383,17 @@ namespace AutomationLibrary
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Wait for element to be visible in the current page.
+        /// </summary>
+        /// <param name="pLocator"></param>
+        /// <param name="pTimeToWait"></param>
+        /// <returns></returns>
+        public static bool fnWaitUntilElementVisible(string pLocator, TimeSpan? pTimeToWait = null)
+        {
+            return fnWaitUntilElementVisible(By.XPath(pLocator), pTimeToWait);
         }
 
         /// <summary>
@@ -395,6 +417,17 @@ namespace AutomationLibrary
         }
 
         /// <summary>
+        /// Wait for element to be hidden in the current page.
+        /// </summary>
+        /// <param name="pLocator"></param>
+        /// <param name="pTimeToWait"></param>
+        /// <returns></returns>
+        public static bool fnWaitUntilElementHidden(string pLocator, TimeSpan? pTimeToWait = null)
+        {
+            return fnWaitUntilElementHidden(By.XPath(pLocator), pTimeToWait);
+        }
+
+        /// <summary>
         /// Wait for element to be clickable in the current page.
         /// </summary>
         /// <param name="by"></param>
@@ -412,6 +445,17 @@ namespace AutomationLibrary
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Wait for element to be clickable in the current page.
+        /// </summary>
+        /// <param name="pLocator"></param>
+        /// <param name="pTimeToWait"></param>
+        /// <returns></returns>
+        public static bool fnWaitUntilElementClickable(string pLocator, TimeSpan? pTimeToWait = null)
+        {
+            return fnWaitUntilElementClickable(By.XPath(pLocator), pTimeToWait);
         }
 
         /// <summary>
@@ -434,6 +478,16 @@ namespace AutomationLibrary
             }
         }
 
+        /// <summary>
+        /// checking if the given element is selected
+        /// </summary>
+        /// <param name="pLocator"></param>
+        /// <param name="pTimeToWait"></param>
+        /// <returns></returns>
+        public static bool fnWaitUntilElementSelected(string pLocator, TimeSpan? pTimeToWait = null)
+        {
+            return fnWaitUntilElementSelected(By.XPath(pLocator), pTimeToWait);
+        }
 
 
 
