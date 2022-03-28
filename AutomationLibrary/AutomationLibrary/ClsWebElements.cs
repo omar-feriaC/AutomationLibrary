@@ -19,6 +19,11 @@ namespace AutomationLibrary
         private static WebDriverWait objExplicitWait;
         private static string strAction = "";
 
+        // ********************************************************************************************
+        // **          Functions created to interact with WebElements
+        // ********************************************************************************************
+
+
         /// <summary>
         /// Returns a list of web elements
         /// </summary>
@@ -233,7 +238,7 @@ namespace AutomationLibrary
         }
 
         /// <summary>
-        /// Wait to page to ne loaded
+        /// Wait to page to be loaded and wait  and WebElement to be present
         /// </summary>
         /// <param name="pobjWebElement"></param>
         /// <param name="pstrPage"></param>
@@ -267,6 +272,15 @@ namespace AutomationLibrary
             return blResult;
         }
 
+        /// <summary>
+        /// Wait to page to be loaded and wait  and WebElement to be present
+        /// </summary>
+        /// <param name="by"></param>
+        /// <param name="pstrPage"></param>
+        /// <param name="pblScreenShot"></param>
+        /// <param name="pblHardStop"></param>
+        /// <param name="pstrHardStopMsg"></param>
+        /// <returns></returns>
         public static bool fnPageLoad(By by, string pstrPage, bool pblScreenShot = true, bool pblHardStop = false, string pstrHardStopMsg = "PageLoad Failed and HardStop defined")
         {
             bool blResult = false;
@@ -290,6 +304,142 @@ namespace AutomationLibrary
             }
             return blResult;
         }
+
+        /// <summary>
+        /// Wait to load the page
+        /// </summary>
+        /// <returns></returns>
+        public static bool fnWaitToLoadPage() 
+        {
+            bool blResult = false;
+            try
+            {
+                ClsReportResult.fnLog("PageLoad", "Step - Waiting to load the page.", Status.Info, false);
+                IJavaScriptExecutor objJS = (IJavaScriptExecutor)ClsWebBrowser.objDriver;
+                IWait<IWebDriver> wait = new WebDriverWait(ClsWebBrowser.objDriver, TimeSpan.FromSeconds(10));
+                wait.Until(wd => objJS.ExecuteScript("return document.readyState").ToString() == "complete");
+                blResult = true;
+            }
+            catch (Exception pobjException)
+            {
+                ClsReportResult.fnLog("PageLoadFail", "The Page was not loaded and some issues were found.", Status.Warning, true);
+                fnExceptionHandling(pobjException);
+            }
+            return blResult;
+        }
+
+
+
+        // ********************************************************************************************
+        // **          Functions for Expexted Conditions
+        // ********************************************************************************************
+
+        /// <summary>
+        /// Wait for element to be present in the current page.
+        /// </summary>
+        /// <param name="by"></param>
+        /// <param name="pTimeToWait"></param>
+        /// <returns></returns>
+        public static bool fnWaitUntilElementPresent(By by, TimeSpan? pTimeToWait = null)
+        {
+            try
+            {
+                WebDriverWait wait = new WebDriverWait(ClsWebBrowser.objDriver, pTimeToWait ?? TimeSpan.FromSeconds(10));
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.PresenceOfAllElementsLocatedBy(by));
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Wait for element to be visible in the current page.
+        /// </summary>
+        /// <param name="by"></param>
+        /// <param name="pTimeToWait"></param>
+        /// <returns></returns>
+        public static bool fnWaitUntilElementVisible(By by, TimeSpan? pTimeToWait = null)
+        {
+            try
+            {
+                WebDriverWait wait = new WebDriverWait(ClsWebBrowser.objDriver, pTimeToWait ?? TimeSpan.FromSeconds(10));
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by));
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Wait for element to be hidden in the current page.
+        /// </summary>
+        /// <param name="by"></param>
+        /// <param name="pTimeToWait"></param>
+        /// <returns></returns>
+        public static bool fnWaitUntilElementHidden(By by, TimeSpan? pTimeToWait = null)
+        {
+            try
+            {
+                WebDriverWait wait = new WebDriverWait(ClsWebBrowser.objDriver, pTimeToWait ?? TimeSpan.FromSeconds(40));
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(by));
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Wait for element to be clickable in the current page.
+        /// </summary>
+        /// <param name="by"></param>
+        /// <param name="pTimeToWait"></param>
+        /// <returns></returns>
+        public static bool fnWaitUntilElementClickable(By by, TimeSpan? pTimeToWait = null)
+        {
+            try
+            {
+                WebDriverWait wait = new WebDriverWait(ClsWebBrowser.objDriver, pTimeToWait ?? TimeSpan.FromSeconds(40));
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(by));
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// checking if the given element is selected
+        /// </summary>
+        /// <param name="by"></param>
+        /// <param name="pTimeToWait"></param>
+        /// <returns></returns>
+        public static bool fnWaitUntilElementSelected(By by, TimeSpan? pTimeToWait = null)
+        {
+            try
+            {
+                WebDriverWait wait = new WebDriverWait(ClsWebBrowser.objDriver, pTimeToWait ?? TimeSpan.FromSeconds(40));
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeSelected(by));
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+
+
+
+        // ********************************************************************************************
+        // **          Action Performed over WebElements
+        // ********************************************************************************************
 
         /// <summary>
         /// Send a text to input fields
@@ -935,6 +1085,7 @@ namespace AutomationLibrary
         /// <param name="by"></param>
         /// <param name="Timeout"></param>
         /// <returns></returns>
+        [Obsolete("Use public static bool fnWaitUntilElementClickable funtion")]
         public static bool fnWaitToBeClickable(By by, int Timeout = 5)
         {
             bool pblStatus = false;
@@ -955,6 +1106,13 @@ namespace AutomationLibrary
             }
         }
 
+        /// <summary>
+        /// Function used to handling error
+        /// </summary>
+        /// <param name="pobjException"></param>
+        /// <param name="pstrStepName"></param>
+        /// <param name="pblHardStop"></param>
+        /// <param name="pstrHardStopMsg"></param>
         public static void fnExceptionHandling(Exception pobjException, string pstrStepName = "", bool pblHardStop = false, string pstrHardStopMsg = "Failed Step and HardStop defined")
         {
             //ClsReportResult clsRR = new clsReportResult();
