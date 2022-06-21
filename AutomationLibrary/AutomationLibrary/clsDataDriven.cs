@@ -85,7 +85,21 @@ namespace AutomationLibrary
 
             strProjectName = objSheet.Cells[2, 1].Text();
             strReportLocation = objSheet.Cells[2, 2].Text() + DateTime.Now.ToString("MMddyyyy_hhmmss");
-            strDataDriverLocation = objSheet.Cells[2, 3].Text();
+            //var tempPath = GetActiveEnvironment().Length > 2 ? objSheet.Cells[2, 3].Text() + GetActiveEnvironment() : objSheet.Cells[2, 3].Text();
+            //strDataDriverLocation = tempPath;
+            if (GetActiveEnvironment().Length > 2)
+            {
+                var arrPath = objSheet.Cells[2, 3].Text().Split('.');
+                var newPath = $"{arrPath[0]}_{GetActiveEnvironment()}.{arrPath[1]}";
+                strDataDriverLocation = newPath;
+            }
+            else
+            {
+                strDataDriverLocation = objSheet.Cells[2, 3].Text();
+            }
+
+
+
             strDriverSheet = objSheet.Cells[2, 4].Text();
             string strExecutionRow;
 
@@ -236,7 +250,16 @@ namespace AutomationLibrary
             {
                 strProjectName = objSSMethod.GetCellValueAsString(x, 1);
                 strReportLocation = objSSMethod.GetCellValueAsString(x, 2) + DateTime.Now.ToString("MMddyyyy_hhmmss") + @"\";
-                strDataDriverLocation = objSSMethod.GetCellValueAsString(x, 3);
+                if (GetActiveEnvironment().Length > 2)
+                {
+                    var arrPath = objSSMethod.GetCellValueAsString(x, 3).Split('.');
+                    var newPath = $"{arrPath[0]}_{GetActiveEnvironment()}.{arrPath[1]}";
+                    strDataDriverLocation = newPath;
+                }
+                else 
+                {
+                    strDataDriverLocation = objSSMethod.GetCellValueAsString(x, 3);
+                }
                 strDriverSheet = objSSMethod.GetCellValueAsString(x, 4);
 
                 x++;
@@ -353,6 +376,25 @@ namespace AutomationLibrary
             }
             objSSMethod.Dispose();
         }
+
+        //
+        private string GetActiveEnvironment()
+        {
+
+            //Configuration
+            SLDocument objSSMethod = new SLDocument(strConfigFile, "Executions");
+
+            int x = 2;
+            var tempPath = "";
+            while (!string.IsNullOrEmpty(objSSMethod.GetCellValueAsString(x, 1)))
+            {
+                tempPath = objSSMethod.GetCellValueAsString(x, 3);
+                x++;
+            }
+
+            return tempPath;
+        }
+
 
 
 

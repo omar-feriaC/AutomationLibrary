@@ -14,6 +14,7 @@ namespace AutomationLibrary
     public class ClsWebBrowser
     {
         //private static readonly IDictionary<string, IWebDriver> dicDrivers = new Dictionary<string, IWebDriver>();
+        public static IWebDriver _objGlobalDriver = null;
         private static IWebDriver _objDriver;
         private static WebDriverWait _wait;
 
@@ -88,6 +89,31 @@ namespace AutomationLibrary
             }
         }
 
+
+        public static IWebDriver fnPrivateSession(string pstrBrowsername)
+        {
+            IWebDriver objDriver2 = null;
+            switch (pstrBrowsername.ToUpper())
+            {
+                case "CHROME":
+                    ChromeOptions optionsChrome = new ChromeOptions();
+                    optionsChrome.AddArgument("no-sandbox");
+                    optionsChrome.AddArgument("start-maximized");
+                    optionsChrome.AddArgument("incognito");
+
+                    objDriver2 = new ChromeDriver(ChromeDriverService.CreateDefaultService(), optionsChrome, TimeSpan.FromMinutes(3));
+
+                    objDriver2.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
+                    _wait = new WebDriverWait(objDriver2, TimeSpan.FromSeconds(5));
+                    objDriver2.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+                    objDriver2.Manage().Window.Maximize();
+                    break;
+            }
+            return objDriver2;
+        }
+
+
+
         /// <summary>
         /// Navigates to a specific URL
         /// </summary>
@@ -105,6 +131,14 @@ namespace AutomationLibrary
             ClsReportResult.fnLog("CloseBrowser", "Step - Closing Browser", Status.Info, false);
             _objDriver.Close();
             _objDriver.Quit();
+        }
+
+
+        public static IWebDriver fnChangeDriver(IWebDriver driver) 
+        {
+            _objGlobalDriver = driver;
+            _objDriver = _objGlobalDriver;
+            return _objDriver;
         }
 
 
