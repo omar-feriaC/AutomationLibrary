@@ -19,7 +19,9 @@ namespace AutomationLibrary
         public static ExtentV3HtmlReporter objHtmlReporter;
         public static bool TC_Status;
         public static bool isWarning;
-
+        public static string BaseReportFolder;
+        public static string FullReportFolder;
+        
         /// <summary>
         /// Setup tjhe intance of extent reports object
         /// </summary>
@@ -29,23 +31,48 @@ namespace AutomationLibrary
             bool blSuccess;
             try
             {
-                ClsDataDriven clsDD = new ClsDataDriven();
-                blSuccess = clsDD.fnAutomationSettings();
+                //ClsDataDriven clsDD = new ClsDataDriven();
+                ///blSuccess = clsDD.fnAutomationSettings();
+                blSuccess = true;
 
                 if (blSuccess)
                 {
                     //To create report directory and add HTML report into it
-                    objHtmlReporter = new ExtentV3HtmlReporter(ClsDataDriven.strReportLocation + ClsDataDriven.strReportName + @"\" + ClsDataDriven.strReportName + ".html");
+                    //objHtmlReporter = new ExtentV3HtmlReporter(ClsDataDriven.strReportLocation + ClsDataDriven.strReportName + @"\" + ClsDataDriven.strReportName + ".html");
+                    BaseReportFolder = TestContext.Parameters["GI_ReportLocation"] + DateTime.Now.ToString("MMddyyyy_hhmmss") + @"\";
+                    FullReportFolder = BaseReportFolder + TestContext.Parameters["GI_ProjectName"] + @"\" + TestContext.Parameters["GI_ReportName"] + ".html";
+                    fnFolderSetup();
 
+                    objHtmlReporter = new ExtentV3HtmlReporter(FullReportFolder);
+
+
+                    /*
                     objHtmlReporter.Config.ReportName = ClsDataDriven.strReportName;
                     objHtmlReporter.Config.DocumentTitle = ClsDataDriven.strProjectName + " - " + ClsDataDriven.strReportName;
                     objHtmlReporter.Config.Theme = AventStack.ExtentReports.Reporter.Configuration.Theme.Dark;
                     objHtmlReporter.Config.Encoding = "utf-8";
+                    */
 
+                    objHtmlReporter.Config.ReportName = TestContext.Parameters["GI_ReportName"];
+                    objHtmlReporter.Config.DocumentTitle = TestContext.Parameters["GI_ProjectName"] + " - " + TestContext.Parameters["GI_ReportName"];
+                    objHtmlReporter.Config.Theme = AventStack.ExtentReports.Reporter.Configuration.Theme.Dark;
+                    objHtmlReporter.Config.Encoding = "utf-8";
+
+
+                    /*
                     objExtent = new ExtentReports();
                     objExtent.AddSystemInfo("Project", ClsDataDriven.strProjectName);
                     objExtent.AddSystemInfo("Browser", ClsDataDriven.strBrowser);
                     objExtent.AddSystemInfo("Env", ClsDataDriven.strReportEnv);
+                    objExtent.AttachReporter(objHtmlReporter);
+                    */
+
+                    objExtent = new ExtentReports();
+                    objExtent.AddSystemInfo("Project", TestContext.Parameters["GI_ProjectName"]);
+                    objExtent.AddSystemInfo("Browser", TestContext.Parameters["GI_BrowserName"]);
+                    objExtent.AddSystemInfo("Env", TestContext.Parameters["GI_TestEnvironment"]);
+                    objExtent.AddSystemInfo("Executed By", "Automation Team");
+                    objExtent.AddSystemInfo("Execution Time", DateTime.Now.ToString("MM/ddy/yyy hh:mm:ss"));
                     objExtent.AttachReporter(objHtmlReporter);
                 }
             }
@@ -216,12 +243,14 @@ namespace AutomationLibrary
         /// <returns></returns>
         public static string fnGetScreenshot()
         {
-            string strSCName = "SC_" + ClsDataDriven.strProjectName + "_" + DateTime.Now.ToString("MMddyyyy_hhmmss");
+            //string strSCName = "SC_" + ClsDataDriven.strProjectName + "_" + DateTime.Now.ToString("MMddyyyy_hhmmss");
+            string strSCName = "SC_" + TestContext.Parameters["GI_ProjectName"].Replace(" ", "_") + "_" + DateTime.Now.ToString("MMddyyyy_hhmmss");
 
             //To take screenshot
             Screenshot objFile = ((ITakesScreenshot)ClsWebBrowser.objDriver).GetScreenshot();
 
-            string strFileLocation = ClsDataDriven.strReportLocation + @"\Screenshots\" + strSCName + ".jpg";
+            //string strFileLocation = ClsDataDriven.strReportLocation + @"\Screenshots\" + strSCName + ".jpg";
+            string strFileLocation = BaseReportFolder + @"Screenshots\" + strSCName + ".jpg";
             //To save screenshot
             objFile.SaveAsFile(strFileLocation, ScreenshotImageFormat.Jpeg);
 
@@ -229,6 +258,31 @@ namespace AutomationLibrary
         }
 
 
+        /// <summary>
+        /// Generates the folder for the report generated
+        /// </summary>
+        private static void fnFolderSetup()
+        {
+
+            string[] strSubFolders = new string[2] { "ScreenShots", TestContext.Parameters["GI_ProjectName"] };
+            bool blFExist = System.IO.Directory.Exists(BaseReportFolder);
+            if (!blFExist)
+            {
+                System.IO.Directory.CreateDirectory(BaseReportFolder);
+            }
+            else
+                blFExist = false;
+
+            foreach (string strFolder in strSubFolders)
+            {
+                blFExist = System.IO.Directory.Exists(BaseReportFolder + strFolder);
+
+                if (!blFExist)
+                {
+                    System.IO.Directory.CreateDirectory(BaseReportFolder + strFolder);
+                }
+            }
+        }
 
 
 

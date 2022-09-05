@@ -157,7 +157,7 @@ namespace AutomationLibrary
         /// </summary>
         /// <param name="pobjDoc"></param>
         /// <returns></returns>
-        private Dictionary<string, int> _GetHeaders(SLDocument pobjDoc)
+        private Dictionary<string, int> _GetHeaders(SLDocument pobjDoc, bool RemoveCharacters = true)
         {
             if (pobjDoc != null)
             {
@@ -166,7 +166,10 @@ namespace AutomationLibrary
                 {
                     if (pobjDoc.GetCellValueAsString(1, cols) != "")
                     {
-                        dicHeaders.Add(fnRemoveEspecialChar(pobjDoc.GetCellValueAsString(1, cols)), cols);
+                        if (RemoveCharacters)
+                        { dicHeaders.Add(fnRemoveEspecialChar(pobjDoc.GetCellValueAsString(1, cols)), cols); }
+                        else
+                        { dicHeaders.Add(pobjDoc.GetCellValueAsString(1, cols), cols); }
                     }
                     else
                     {
@@ -228,13 +231,13 @@ namespace AutomationLibrary
         /// <param name="pstrColumn"></param>
         /// <param name="pintRow"></param>
         /// <param name="pstrValue"></param>
-        public void fnSaveValue(string pstrPath, string pstrSheet, string pstrColumn, int pintRow, string pstrValue)
+        public void fnSaveValue(string pstrPath, string pstrSheet, string pstrColumn, int pintRow, string pstrValue, bool RemoveCharacters = true)
         {
             SLDocument _document = new SLDocument(pstrPath);
             if (!string.IsNullOrEmpty(pstrSheet))
             {
                 if (_document.GetSheetNames().Contains(pstrSheet)) { _document.SelectWorksheet(pstrSheet); }
-                Dictionary<string, int> _dicHeaderE = _GetHeaders(_document);
+                Dictionary<string, int> _dicHeaderE = _GetHeaders(_document, RemoveCharacters);
                 if (_dicHeaderE.ContainsKey(pstrColumn))
                 {
                     _document.SetCellValue(pintRow, _dicHeaderE[pstrColumn], pstrValue);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,8 @@ namespace AutomationLibrary
                 string strLocalExecution = null;
                 try
                 {
-                    strLocalExecution = Environment.GetEnvironmentVariable("GI_Env_Variable").ToUpper();
+                    //strLocalExecution = Environment.GetEnvironmentVariable("GI_Env_Variable").ToUpper();
+                    strLocalExecution = TestContext.Parameters["GI_Env_Variable"].ToUpper().ToString();
                 }
                 catch (NullReferenceException)
                 {
@@ -29,6 +31,30 @@ namespace AutomationLibrary
                 return strLocalExecution.Equals("Local", StringComparison.OrdinalIgnoreCase);
             }
         }
+
+        /// <summary>
+        /// Boolean that defines if TC will be skipped
+        /// </summary>
+        public static bool blSkipExecution
+        {
+            get
+            {
+                bool strSkipExecution = false;
+                try
+                {
+                    //strSkipExecution = bool.Parse(Environment.GetEnvironmentVariable("GI_Env_SkipTests"));
+                    strSkipExecution = bool.Parse(TestContext.Parameters["GI_Env_SkipTests"]);
+                }
+                catch (NullReferenceException)
+                {
+                    return false;
+                }
+
+                return strSkipExecution;
+            }
+        }
+
+
 
         /// <summary>
         /// Constant to define the Automation Setting driver
