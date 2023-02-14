@@ -263,25 +263,33 @@ namespace AutomationLibrary
         /// </summary>
         private static void fnFolderSetup()
         {
-
-            string[] strSubFolders = new string[2] { "ScreenShots", TestContext.Parameters["GI_ProjectName"] };
-            bool blFExist = System.IO.Directory.Exists(BaseReportFolder);
-            if (!blFExist)
+            try
             {
-                System.IO.Directory.CreateDirectory(BaseReportFolder);
-            }
-            else
-                blFExist = false;
-
-            foreach (string strFolder in strSubFolders)
-            {
-                blFExist = System.IO.Directory.Exists(BaseReportFolder + strFolder);
-
+                string[] strSubFolders = new string[2] { "ScreenShots", TestContext.Parameters["GI_ProjectName"] };
+                bool blFExist = System.IO.Directory.Exists(BaseReportFolder);
                 if (!blFExist)
                 {
-                    System.IO.Directory.CreateDirectory(BaseReportFolder + strFolder);
+                    System.IO.Directory.CreateDirectory(BaseReportFolder);
+                }
+                else
+                    blFExist = false;
+
+                foreach (string strFolder in strSubFolders)
+                {
+                    blFExist = System.IO.Directory.Exists(BaseReportFolder + strFolder);
+
+                    if (!blFExist)
+                    {
+                        System.IO.Directory.CreateDirectory(BaseReportFolder + strFolder);
+                    }
                 }
             }
+            catch (Exception e) 
+            { 
+                TestContext.Progress.WriteLine($"Folder cannot be created, an exception appears: {e.Message}");
+
+            }
+
         }
 
 
