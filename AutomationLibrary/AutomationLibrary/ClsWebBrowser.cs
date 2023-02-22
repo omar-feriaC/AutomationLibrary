@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebDriverManager.DriverConfigs.Impl;
 
 namespace AutomationLibrary
 {
@@ -42,17 +43,21 @@ namespace AutomationLibrary
             switch (pstrBrowsername.ToUpper())
             {
                 case "CHROME":
+
+                    new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
+                    _objDriver = new ChromeDriver();
+
                     ChromeOptions optionsChrome = new ChromeOptions();
                     optionsChrome.AddArgument("no-sandbox");
                     optionsChrome.AddArgument("start-maximized");
 
-                    _objDriver = new ChromeDriver(ChromeDriverService.CreateDefaultService(), optionsChrome, TimeSpan.FromMinutes(3));
+                    //Removing for Driver Manager
+                    //_objDriver = new ChromeDriver(ChromeDriverService.CreateDefaultService(), optionsChrome, TimeSpan.FromMinutes(3));
 
                     _objDriver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
                     _wait = new WebDriverWait(_objDriver, TimeSpan.FromSeconds(5));
                     _objDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
                     _objDriver.Manage().Window.Maximize();
-                    //dicDrivers.Add("Chrome", objDriver);
                     break;
                 case "HEADLESSCHROME":
                     var optionsHeadlessChrome = new ChromeOptions();
@@ -60,7 +65,10 @@ namespace AutomationLibrary
                     optionsHeadlessChrome.AddArgument("window-size=1920,1080");
                     optionsHeadlessChrome.AddArgument("--headless");
 
-                    _objDriver = new ChromeDriver(ChromeDriverService.CreateDefaultService(), optionsHeadlessChrome, TimeSpan.FromMinutes(3));
+                    //Removing for Driver Manager
+                    //_objDriver = new ChromeDriver(ChromeDriverService.CreateDefaultService(), optionsHeadlessChrome, TimeSpan.FromMinutes(3));
+                    new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
+                    _objDriver = new ChromeDriver();
 
                     //TODO: Next steps can be optimized
                     _objDriver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
@@ -69,6 +77,7 @@ namespace AutomationLibrary
 
                     break;
                 case "EDGE":
+                    //var strDriverPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                     var strDriverPath = "Provide your path";
                     var optionsEdge = new OpenQA.Selenium.Edge.EdgeOptions();
                     #pragma warning disable CS0618 // Type or member is obsolete
@@ -82,9 +91,11 @@ namespace AutomationLibrary
                     //dicDrivers.Add("Edge", objDriver);
                     break;
                 case "FIREFOX":
-                    objDriver = new FirefoxDriver();
-                    objDriver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
-                    //dicDrivers.Add("FireFox", objDriver);
+                    new WebDriverManager.DriverManager().SetUpDriver(new FirefoxConfig());
+                    _objDriver = new FirefoxDriver();
+                    _objDriver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
+                    _objDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+                    _objDriver.Manage().Window.Maximize();
                     break;
             }
         }
@@ -101,7 +112,10 @@ namespace AutomationLibrary
                     optionsChrome.AddArgument("start-maximized");
                     optionsChrome.AddArgument("incognito");
 
-                    objDriver2 = new ChromeDriver(ChromeDriverService.CreateDefaultService(), optionsChrome, TimeSpan.FromMinutes(3));
+                    //Remove to add WebDriverManager
+                    //objDriver2 = new ChromeDriver(ChromeDriverService.CreateDefaultService(), optionsChrome, TimeSpan.FromMinutes(3));
+                    new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
+                    objDriver2 = new ChromeDriver();
 
                     objDriver2.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
                     _wait = new WebDriverWait(objDriver2, TimeSpan.FromSeconds(5));
