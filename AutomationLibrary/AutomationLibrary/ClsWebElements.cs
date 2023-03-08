@@ -365,6 +365,24 @@ namespace AutomationLibrary
             return fnWaitUntilElementPresent(By.XPath(pLocator), pTimeToWait);
         }
 
+
+
+        public static bool fnElementDisplayed(By by, TimeSpan? pTimeToWait = null)
+        {
+            try
+            {
+                return ClsWebBrowser.objDriver.FindElement(by).Displayed;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+
+
+
+
         /// <summary>
         /// Wait for element to be visible in the current page.
         /// </summary>

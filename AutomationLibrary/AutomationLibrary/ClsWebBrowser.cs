@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using WebDriverManager.DriverConfigs.Impl;
 
@@ -58,6 +59,8 @@ namespace AutomationLibrary
                     _wait = new WebDriverWait(_objDriver, TimeSpan.FromSeconds(5));
                     _objDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
                     _objDriver.Manage().Window.Maximize();
+                    _objDriver.Manage().Cookies.DeleteAllCookies();
+                    Thread.Sleep(TimeSpan.FromSeconds(5));
                     break;
                 case "HEADLESSCHROME":
                     var optionsHeadlessChrome = new ChromeOptions();
@@ -74,6 +77,8 @@ namespace AutomationLibrary
                     _objDriver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
                     _objDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
                     _objDriver.Manage().Window.Maximize();
+                    _objDriver.Manage().Cookies.DeleteAllCookies();
+                    Thread.Sleep(TimeSpan.FromSeconds(5));
 
                     break;
                 case "EDGE":
@@ -87,7 +92,9 @@ namespace AutomationLibrary
                     objDriver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
                     _wait = new WebDriverWait(_objDriver, TimeSpan.FromSeconds(5));
                     _objDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-                    objDriver.Manage().Window.Maximize();
+                    _objDriver.Manage().Window.Maximize();
+                    _objDriver.Manage().Cookies.DeleteAllCookies();
+                    Thread.Sleep(TimeSpan.FromSeconds(5));
                     //dicDrivers.Add("Edge", objDriver);
                     break;
                 case "FIREFOX":
@@ -101,7 +108,7 @@ namespace AutomationLibrary
         }
 
 
-        public static IWebDriver fnPrivateSession(string pstrBrowsername)
+        public static IWebDriver fnPrivateSession(string pstrBrowsername, string pstrPreferredLanguaje = "")
         {
             IWebDriver objDriver2 = null;
             switch (pstrBrowsername.ToUpper())
@@ -111,6 +118,7 @@ namespace AutomationLibrary
                     optionsChrome.AddArgument("no-sandbox");
                     optionsChrome.AddArgument("start-maximized");
                     optionsChrome.AddArgument("incognito");
+                    if (pstrPreferredLanguaje != "") { optionsChrome.AddArgument(pstrPreferredLanguaje); }
 
                     //Remove to add WebDriverManager
                     //objDriver2 = new ChromeDriver(ChromeDriverService.CreateDefaultService(), optionsChrome, TimeSpan.FromMinutes(3));
@@ -121,6 +129,8 @@ namespace AutomationLibrary
                     _wait = new WebDriverWait(objDriver2, TimeSpan.FromSeconds(5));
                     objDriver2.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
                     objDriver2.Manage().Window.Maximize();
+                    objDriver2.Manage().Cookies.DeleteAllCookies();
+                    Thread.Sleep(TimeSpan.FromSeconds(5));
                     break;
             }
             return objDriver2;
