@@ -39,22 +39,22 @@ namespace AutomationLibrary
         /// Inits an instance of webdriver as Chrome, Edge or Firefox
         /// </summary>
         /// <param name="pstrBrowsername"></param>
-        public static void fnInitBrowser(string pstrBrowsername) 
+        public static void fnInitBrowser(string pstrBrowsername, string pstrPreferredLanguaje = "") 
         {
             switch (pstrBrowsername.ToUpper())
             {
                 case "CHROME":
 
-                    new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
-                    _objDriver = new ChromeDriver();
-
                     ChromeOptions optionsChrome = new ChromeOptions();
                     optionsChrome.AddArgument("no-sandbox");
                     optionsChrome.AddArgument("start-maximized");
+                    if (pstrPreferredLanguaje != "") { optionsChrome.AddArgument($"--{pstrPreferredLanguaje}"); }
 
                     //Removing for Driver Manager
                     //_objDriver = new ChromeDriver(ChromeDriverService.CreateDefaultService(), optionsChrome, TimeSpan.FromMinutes(3));
 
+                    new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
+                    _objDriver = new ChromeDriver();
                     _objDriver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
                     _wait = new WebDriverWait(_objDriver, TimeSpan.FromSeconds(5));
                     _objDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
@@ -67,6 +67,7 @@ namespace AutomationLibrary
                     optionsHeadlessChrome.AddArgument("no-sandbox");
                     optionsHeadlessChrome.AddArgument("window-size=1920,1080");
                     optionsHeadlessChrome.AddArgument("--headless");
+                    if (pstrPreferredLanguaje != "") { optionsHeadlessChrome.AddArgument(pstrPreferredLanguaje); }
 
                     //Removing for Driver Manager
                     //_objDriver = new ChromeDriver(ChromeDriverService.CreateDefaultService(), optionsHeadlessChrome, TimeSpan.FromMinutes(3));
