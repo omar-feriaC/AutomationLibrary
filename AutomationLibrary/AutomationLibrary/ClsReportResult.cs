@@ -18,6 +18,7 @@ namespace AutomationLibrary
         public static ExtentTest objTest;
         public static ExtentV3HtmlReporter objHtmlReporter;
         public static bool TC_Status;
+        public static bool DevOpsResult;
         public static bool isWarning;
         public static string BaseReportFolder;
         public static string FullReportFolder;
@@ -98,7 +99,7 @@ namespace AutomationLibrary
                 {
                     case TestStatus.Failed:
                         objLogstatus = Status.Fail;
-                        if (Convert.ToBoolean(TestContext.Parameters["GI_DevOps_Report"])) 
+                        if (DevOpsResult) 
                         { TestContext.Progress.WriteLine($"Test ended with {objLogstatus} – {objErrorMessage}");}
                         objTest.Log(objLogstatus, "Test ended with " + objLogstatus + " – " + objErrorMessage);
                         break;
@@ -110,7 +111,7 @@ namespace AutomationLibrary
                         break;
                     default:
                         objLogstatus = Status.Warning;
-                        if (Convert.ToBoolean(TestContext.Parameters["GI_DevOps_Report"]))
+                        if (DevOpsResult)
                         {TestContext.Progress.WriteLine($"The status: {objLogstatus} is not supported."); }
                         Console.WriteLine("The status: " + objLogstatus + " is not supported.");
                         break;
@@ -141,26 +142,26 @@ namespace AutomationLibrary
                 switch (pstrStatus.ToUpper())
                 {
                     case "PASS":
-                        if (Convert.ToBoolean(TestContext.Parameters["GI_DevOps_Report"]))
+                        if (DevOpsResult)
                         { TestContext.Progress.WriteLine($"{pstrDescription} - Pass");}
                         objTest.Log(Status.Pass, pstrDescription, MediaEntityBuilder.CreateScreenCaptureFromPath(strSCLocation).Build());
                         break;
                     case "FAIL":
                         TC_Status = false;
-                        if (Convert.ToBoolean(TestContext.Parameters["GI_DevOps_Report"]))
+                        if (DevOpsResult)
                         { TestContext.Progress.WriteLine($"{pstrDescription} - Fail");}
                         objTest.Log(Status.Fail, pstrDescription, MediaEntityBuilder.CreateScreenCaptureFromPath(strSCLocation).Build());
                         if (pblHardStop)
                             Assert.Fail(pstrHardStopMsg);
                         break;
                     case "INFO":
-                        if (Convert.ToBoolean(TestContext.Parameters["GI_DevOps_Report"]))
+                        if (DevOpsResult)
                         {TestContext.Progress.WriteLine($"{pstrDescription} - Info"); }
                         objTest.Log(Status.Info, pstrDescription, MediaEntityBuilder.CreateScreenCaptureFromPath(strSCLocation).Build());
                         break;
                     case "WARNING":
                         isWarning = true;
-                        if (Convert.ToBoolean(TestContext.Parameters["GI_DevOps_Report"]))
+                        if (DevOpsResult)
                         { TestContext.Progress.WriteLine($"{pstrDescription} - Warning");}
                         objTest.Log(Status.Warning, pstrDescription, MediaEntityBuilder.CreateScreenCaptureFromPath(strSCLocation).Build());
                         break;
@@ -171,25 +172,25 @@ namespace AutomationLibrary
                 switch (pstrStatus.ToUpper())
                 {
                     case "PASS":
-                        if (Convert.ToBoolean(TestContext.Parameters["GI_DevOps_Report"]))
+                        if (DevOpsResult)
                         {TestContext.Progress.WriteLine($"{pstrDescription} - Pass"); }
                         objTest.Log(Status.Pass, pstrDescription);
                         break;
                     case "FAIL":
                         TC_Status = false;
-                        if (Convert.ToBoolean(TestContext.Parameters["GI_DevOps_Report"]))
+                        if (DevOpsResult)
                         { TestContext.Progress.WriteLine($"{pstrDescription} - Fail");}
                         objTest.Log(Status.Fail, pstrDescription);
                         if (pblHardStop) { Assert.Fail(pstrHardStopMsg); }
                         break;
                     case "INFO":
-                        if (Convert.ToBoolean(TestContext.Parameters["GI_DevOps_Report"]))
+                        if (DevOpsResult)
                         {TestContext.Progress.WriteLine($"{pstrDescription} - Info"); }
                         objTest.Log(Status.Info, pstrDescription);
                         break;
                     case "WARNING":
                         isWarning = true;
-                        if (Convert.ToBoolean(TestContext.Parameters["GI_DevOps_Report"]))
+                        if (DevOpsResult)
                         { TestContext.Progress.WriteLine($"{pstrDescription} - Warning");}
                         objTest.Log(Status.Info, pstrDescription);
                         break;
@@ -232,7 +233,7 @@ namespace AutomationLibrary
 
             if (pstrStatus == Status.Warning) { isWarning = true; }
 
-            if (Convert.ToBoolean(TestContext.Parameters["GI_DevOps_Report"]))
+            if (DevOpsResult)
             {TestContext.Progress.WriteLine($"{pstrStepName}: {pstrDescription}"); }
             objTest.Log(pstrStatus == Status.Skip ? Status.Info : pstrStatus, pstrDescription, ss);
         }
@@ -297,7 +298,7 @@ namespace AutomationLibrary
             }
             catch (Exception e) 
             { 
-                if (Convert.ToBoolean(TestContext.Parameters["GI_DevOps_Report"]))
+                if (DevOpsResult)
                 {TestContext.Progress.WriteLine($"Folder cannot be created, an exception appears: {e.Message}"); }
             }
 
