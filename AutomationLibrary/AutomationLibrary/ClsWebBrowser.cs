@@ -1,11 +1,14 @@
 ﻿using AventStack.ExtentReports;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -44,17 +47,14 @@ namespace AutomationLibrary
             switch (pstrBrowsername.ToUpper())
             {
                 case "CHROME":
-
                     ChromeOptions optionsChrome = new ChromeOptions();
                     optionsChrome.AddArgument("no-sandbox");
                     optionsChrome.AddArgument("start-maximized");
                     if (pstrPreferredLanguaje != "") { optionsChrome.AddArgument($"--{pstrPreferredLanguaje}"); }
-
-                    //Removing for Driver Manager
-                    //_objDriver = new ChromeDriver(ChromeDriverService.CreateDefaultService(), optionsChrome, TimeSpan.FromMinutes(3));
-
+                    
+                    //Driver Manager
                     new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
-                    _objDriver = new ChromeDriver();
+                    _objDriver = new ChromeDriver(optionsChrome);
                     _objDriver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
                     _wait = new WebDriverWait(_objDriver, TimeSpan.FromSeconds(5));
                     _objDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
@@ -64,18 +64,18 @@ namespace AutomationLibrary
                     break;
                 case "HEADLESSCHROME":
                     var optionsHeadlessChrome = new ChromeOptions();
+                    //optionsHeadlessChrome.AddArgument("no-sandbox");
+                    //optionsHeadlessChrome.AddArgument("window-size=1920,1080");
+                    //optionsHeadlessChrome.AddArgument("--headless");
+                    //optionsHeadlessChrome.AddArgument("--headless=new");
                     optionsHeadlessChrome.AddArgument("no-sandbox");
-                    optionsHeadlessChrome.AddArgument("window-size=1920,1080");
                     optionsHeadlessChrome.AddArgument("--headless");
-                    if (pstrPreferredLanguaje != "") { optionsHeadlessChrome.AddArgument(pstrPreferredLanguaje); }
 
                     //Removing for Driver Manager
-                    //_objDriver = new ChromeDriver(ChromeDriverService.CreateDefaultService(), optionsHeadlessChrome, TimeSpan.FromMinutes(3));
                     new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
-                    _objDriver = new ChromeDriver();
-
-                    //TODO: Next steps can be optimized
+                    _objDriver = new ChromeDriver(optionsHeadlessChrome);
                     _objDriver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
+                    _wait = new WebDriverWait(_objDriver, TimeSpan.FromSeconds(5));
                     _objDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
                     _objDriver.Manage().Window.Maximize();
                     _objDriver.Manage().Cookies.DeleteAllCookies();
@@ -83,13 +83,13 @@ namespace AutomationLibrary
 
                     break;
                 case "EDGE":
-                    //var strDriverPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                    var strDriverPath = "Provide your path";
+                    string EdgeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase);
+                    EdgeDir = EdgeDir.Remove(EdgeDir.Length - 10).Replace("file:\\", "") + @"\lib\";
+
                     var optionsEdge = new OpenQA.Selenium.Edge.EdgeOptions();
-                    #pragma warning disable CS0618 // Type or member is obsolete
                     optionsEdge.AddAdditionalCapability("UseChromium", true);
-                    #pragma warning restore CS0618 // Type or member is obsolete
-                    objDriver = new OpenQA.Selenium.Edge.EdgeDriver(OpenQA.Selenium.Edge.EdgeDriverService.CreateDefaultService(strDriverPath), optionsEdge, TimeSpan.FromMinutes(3));
+
+                    objDriver = new OpenQA.Selenium.Edge.EdgeDriver(OpenQA.Selenium.Edge.EdgeDriverService.CreateDefaultService(EdgeDir), optionsEdge, TimeSpan.FromMinutes(3));
                     objDriver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
                     _wait = new WebDriverWait(_objDriver, TimeSpan.FromSeconds(5));
                     _objDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
