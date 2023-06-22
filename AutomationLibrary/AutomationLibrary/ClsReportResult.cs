@@ -5,6 +5,7 @@ using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,8 @@ namespace AutomationLibrary
         public static bool isWarning;
         public static string BaseReportFolder;
         public static string FullReportFolder;
+        public static string TestPlanSuite = "";
+        
         
         /// <summary>
         /// Setup tjhe intance of extent reports object
@@ -40,7 +43,8 @@ namespace AutomationLibrary
                 {
                     //To create report directory and add HTML report into it
                     //objHtmlReporter = new ExtentV3HtmlReporter(ClsDataDriven.strReportLocation + ClsDataDriven.strReportName + @"\" + ClsDataDriven.strReportName + ".html");
-                    BaseReportFolder = TestContext.Parameters["GI_ReportLocation"] + DateTime.Now.ToString("MMddyyyy_hhmmss") + @"\";
+                    string folderID = $"_{Environment.UserName.ToString()}";
+                    BaseReportFolder = TestContext.Parameters["GI_ReportLocation"] + DateTime.Now.ToString("MMddyyyy_hhmmss") + folderID + @"\";
                     FullReportFolder = BaseReportFolder + TestContext.Parameters["GI_ProjectName"] + @"\" + TestContext.Parameters["GI_ReportName"] + ".html";
                     fnFolderSetup();
 
@@ -72,7 +76,8 @@ namespace AutomationLibrary
                     objExtent.AddSystemInfo("Project", TestContext.Parameters["GI_ProjectName"]);
                     objExtent.AddSystemInfo("Browser", TestContext.Parameters["GI_BrowserName"]);
                     objExtent.AddSystemInfo("Env", TestContext.Parameters["GI_TestEnvironment"]);
-                    objExtent.AddSystemInfo("Executed By", "Automation Team");
+                    objExtent.AddSystemInfo("Executed By", Environment.UserName.ToString());
+                    objExtent.AddSystemInfo("Executed Machine", Environment.MachineName.ToString());
                     objExtent.AddSystemInfo("Execution Time", DateTime.Now.ToString("MM/ddy/yyy hh:mm:ss"));
                     objExtent.AttachReporter(objHtmlReporter);
                 }
@@ -304,7 +309,18 @@ namespace AutomationLibrary
 
         }
 
-
+        public static void fnRenameFolder() 
+        {
+            try
+            {
+                var oldPath = BaseReportFolder.Substring(0, BaseReportFolder.Length - 1);
+                var newPath = BaseReportFolder.Substring(0, BaseReportFolder.Length - 1) + "_TestPlanSuite_" + TestPlanSuite.Replace("-", "_").Replace(" ", "");
+                Directory.Move(@oldPath, @newPath);
+                TestContext.Progress.WriteLine($"The rename folder is: {newPath}");
+            }
+            catch
+            { }
+        }
 
     }
 }

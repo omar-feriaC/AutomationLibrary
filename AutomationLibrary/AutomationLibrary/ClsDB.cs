@@ -95,14 +95,16 @@ namespace AutomationLibrary
         /// </summary>
         /// <param name="pstrQuery"></param>
         /// <returns></returns>
-        public DbDataReader fnDataReader(string pstrQuery)
+        public DataTable fnDataReader(string pstrQuery)
         {
             try
             {
                 OracleCommand cmd = new OracleCommand(pstrQuery, conn);
                 DbDataReader reader = cmd.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(reader);
                 fnCloseConnection();
-                return reader;
+                return dt;
             }
             catch (Exception e)
             {
