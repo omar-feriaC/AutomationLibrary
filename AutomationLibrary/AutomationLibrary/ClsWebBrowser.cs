@@ -151,8 +151,7 @@ namespace AutomationLibrary
                 TestContext.Progress.WriteLine($"Exception selecting driver: {pstrBrowsername.ToUpper()},the following exeption has occurred: {e.Message}");
 
                 //Stack Trace
-                ClsVariables.TempStackTrace = $"Exception selecting driver: {pstrBrowsername.ToUpper()},the following exeption has occurred: {e.Message}";
-                ClsVariables.fnAddStackTrace(ClsVariables.TempStackTrace);
+                ClsVariables.fnAddStackTrace($"Exception selecting driver: {pstrBrowsername.ToUpper()},the following exeption has occurred: {e.Message}");
             }
         }
 

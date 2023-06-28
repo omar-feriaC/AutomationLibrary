@@ -85,8 +85,7 @@ namespace AutomationLibrary
             catch (Exception pobjException)
             {
                 //Stack Trace
-                ClsVariables.TempStackTrace = pobjException.StackTrace;
-                ClsVariables.fnAddStackTrace(ClsVariables.TempStackTrace);
+                ClsVariables.fnAddStackTrace(pobjException.StackTrace);
                 throw (pobjException);
             }
             return blSuccess;
@@ -128,13 +127,13 @@ namespace AutomationLibrary
             catch (Exception pobjException)
             {
                 //Stack Trace
-                ClsVariables.TempStackTrace = pobjException.StackTrace;
-                ClsVariables.fnAddStackTrace(ClsVariables.TempStackTrace);
+                ClsVariables.fnAddStackTrace(pobjException.StackTrace);
                 throw (pobjException);
             }
 
         }
 
+        /*
         /// <summary>
         /// Create a log step and optional takes the screenshot
         /// </summary>
@@ -223,6 +222,7 @@ namespace AutomationLibrary
         {
             fnLog(pstrStepName, pstrDescription, pstrStatus, pblScreenShot);
         }
+        */
 
         /// <summary>
         /// Create a log step and optional takes the screenshot
@@ -244,8 +244,7 @@ namespace AutomationLibrary
             { 
                 TC_Status = false;
                 //Stack Trace
-                ClsVariables.TempStackTrace = $"{pstrStepName}, {pstrDescription}";
-                ClsVariables.fnAddStackTrace(ClsVariables.TempStackTrace);
+                ClsVariables.fnAddStackTrace($"Step Error: {pstrStepName}, {pstrDescription}");
             }
 
             if (pstrStatus == Status.Warning) { isWarning = true; }
@@ -316,8 +315,7 @@ namespace AutomationLibrary
             catch (Exception e) 
             {
                 //Stack Trace
-                ClsVariables.TempStackTrace = e.StackTrace;
-                ClsVariables.fnAddStackTrace(ClsVariables.TempStackTrace);
+                ClsVariables.fnAddStackTrace(e.StackTrace);
                 if (DevOpsResult)
                 {TestContext.Progress.WriteLine($"Folder cannot be created, an exception appears: {e.Message}"); }
             }
@@ -336,8 +334,7 @@ namespace AutomationLibrary
             catch (Exception e)
             {
                 //Stack Trace
-                ClsVariables.TempStackTrace = e.StackTrace;
-                ClsVariables.fnAddStackTrace(ClsVariables.TempStackTrace);
+                ClsVariables.fnAddStackTrace(e.StackTrace);
             }
         }
 

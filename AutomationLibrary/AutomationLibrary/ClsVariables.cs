@@ -42,7 +42,6 @@ namespace AutomationLibrary
                 bool strSkipExecution = false;
                 try
                 {
-                    //strSkipExecution = bool.Parse(Environment.GetEnvironmentVariable("GI_Env_SkipTests"));
                     strSkipExecution = bool.Parse(TestContext.Parameters["GI_Env_SkipTests"]);
                 }
                 catch (NullReferenceException)
@@ -73,19 +72,12 @@ namespace AutomationLibrary
         public static string strStackTrace = "";
 
         /// <summary>
-        /// Get stacktrace log
-        /// </summary>
-        public static string TempStackTrace = "";
-
-
-
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="strStackTrace"></param>
         public static void fnAddStackTrace(string strStackTrace) 
         {
-            ClsVariables.strStackTrace = strStackTrace + "\n\n" + TempStackTrace;
+            ClsVariables.strStackTrace = ClsVariables.strStackTrace + "\n\n" + strStackTrace;
         }
 
 

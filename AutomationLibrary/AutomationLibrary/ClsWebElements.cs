@@ -1187,10 +1187,6 @@ namespace AutomationLibrary
         /// <param name="pstrHardStopMsg"></param>
         public static void fnExceptionHandling(Exception pobjException, string pstrStepName = "", bool pblHardStop = false, string pstrHardStopMsg = "Failed Step and HardStop defined")
         {
-            //Stack Trace
-            //ClsVariables.TempStackTrace = pobjException.StackTrace;
-            //ClsVariables.fnAddStackTrace(ClsVariables.TempStackTrace);
-
             switch (pobjException.Message.ToString())
             {
                 case "SendKeysFail":
