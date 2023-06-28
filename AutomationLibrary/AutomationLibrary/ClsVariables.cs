@@ -67,5 +67,27 @@ namespace AutomationLibrary
         /// </summary>
         public static string strEdgeDriverPath = @"H:\Any\4th_Automation\GlobalIntakeDriver\ExternalLib\";
 
+        /// <summary>
+        /// Get stacktrace log
+        /// </summary>
+        public static string strStackTrace = "";
+
+        /// <summary>
+        /// Get stacktrace log
+        /// </summary>
+        public static string TempStackTrace = "";
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strStackTrace"></param>
+        public static void fnAddStackTrace(string strStackTrace) 
+        {
+            ClsVariables.strStackTrace = strStackTrace + "\n\n" + TempStackTrace;
+        }
+
+
     }
 }

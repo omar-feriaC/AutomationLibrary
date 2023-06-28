@@ -51,6 +51,9 @@ namespace AutomationLibrary
             }
             catch (Exception e)
             {
+                //Stack Trace
+                ClsVariables.TempStackTrace = e.StackTrace;
+                ClsVariables.fnAddStackTrace(ClsVariables.TempStackTrace);
                 Console.WriteLine("The connection cannot be opened: Error -> " + e.Message);
             }
         }
@@ -67,6 +70,9 @@ namespace AutomationLibrary
             }
             catch (Exception e)
             {
+                //Stack Trace
+                ClsVariables.TempStackTrace = e.StackTrace;
+                ClsVariables.fnAddStackTrace(ClsVariables.TempStackTrace);
                 Console.WriteLine("The connection cannot be closed: Error -> " + e.Message);
             }
         }
@@ -85,6 +91,9 @@ namespace AutomationLibrary
             }
             catch (Exception e)
             {
+                //Stack Trace
+                ClsVariables.TempStackTrace = e.StackTrace;
+                ClsVariables.fnAddStackTrace(ClsVariables.TempStackTrace);
                 fnCloseConnection();
                 Console.WriteLine("The query cannot be executed: Error -> " + e.Message);
             }
@@ -108,6 +117,9 @@ namespace AutomationLibrary
             }
             catch (Exception e)
             {
+                //Stack Trace
+                ClsVariables.TempStackTrace = e.StackTrace;
+                ClsVariables.fnAddStackTrace(ClsVariables.TempStackTrace);
                 fnCloseConnection();
                 Console.WriteLine("The query cannot be executed: Error -> " + e.Message);
                 return null;
@@ -134,6 +146,9 @@ namespace AutomationLibrary
             }
             catch (Exception e)
             {
+                //Stack Trace
+                ClsVariables.TempStackTrace = e.StackTrace;
+                ClsVariables.fnAddStackTrace(ClsVariables.TempStackTrace);
                 fnCloseConnection();
                 Console.WriteLine("The data table cannot be created: Error -> " + e.Message);
                 return null;
@@ -158,6 +173,9 @@ namespace AutomationLibrary
             }
             catch (Exception e)
             {
+                //Stack Trace
+                ClsVariables.TempStackTrace = e.StackTrace;
+                ClsVariables.fnAddStackTrace(ClsVariables.TempStackTrace);
                 fnCloseConnection();
                 Console.WriteLine("The data table cannot be created: Error -> " + e.Message);
                 strValue = "";

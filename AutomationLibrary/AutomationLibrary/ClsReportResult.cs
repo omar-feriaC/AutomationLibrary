@@ -84,6 +84,9 @@ namespace AutomationLibrary
             }
             catch (Exception pobjException)
             {
+                //Stack Trace
+                ClsVariables.TempStackTrace = pobjException.StackTrace;
+                ClsVariables.fnAddStackTrace(ClsVariables.TempStackTrace);
                 throw (pobjException);
             }
             return blSuccess;
@@ -124,6 +127,9 @@ namespace AutomationLibrary
             }
             catch (Exception pobjException)
             {
+                //Stack Trace
+                ClsVariables.TempStackTrace = pobjException.StackTrace;
+                ClsVariables.fnAddStackTrace(ClsVariables.TempStackTrace);
                 throw (pobjException);
             }
 
@@ -234,7 +240,13 @@ namespace AutomationLibrary
                 ss = MediaEntityBuilder.CreateScreenCaptureFromPath(strSCLocation).Build();
             }
 
-            if (pstrStatus == Status.Fail) { TC_Status = false; }
+            if (pstrStatus == Status.Fail) 
+            { 
+                TC_Status = false;
+                //Stack Trace
+                ClsVariables.TempStackTrace = $"{pstrStepName}, {pstrDescription}";
+                ClsVariables.fnAddStackTrace(ClsVariables.TempStackTrace);
+            }
 
             if (pstrStatus == Status.Warning) { isWarning = true; }
 
@@ -302,7 +314,10 @@ namespace AutomationLibrary
                 }
             }
             catch (Exception e) 
-            { 
+            {
+                //Stack Trace
+                ClsVariables.TempStackTrace = e.StackTrace;
+                ClsVariables.fnAddStackTrace(ClsVariables.TempStackTrace);
                 if (DevOpsResult)
                 {TestContext.Progress.WriteLine($"Folder cannot be created, an exception appears: {e.Message}"); }
             }
@@ -318,8 +333,12 @@ namespace AutomationLibrary
                 Directory.Move(@oldPath, @newPath);
                 TestContext.Progress.WriteLine($"The rename folder is: {newPath}");
             }
-            catch
-            { }
+            catch (Exception e)
+            {
+                //Stack Trace
+                ClsVariables.TempStackTrace = e.StackTrace;
+                ClsVariables.fnAddStackTrace(ClsVariables.TempStackTrace);
+            }
         }
 
     }
