@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AutomationLibrary
@@ -236,8 +237,18 @@ namespace AutomationLibrary
             MediaEntityModelProvider ss = null;
             if (pblScreenShot)
             {
-                string strSCLocation = fnGetScreenshot();
-                ss = MediaEntityBuilder.CreateScreenCaptureFromPath(strSCLocation).Build();
+                string strSCLocation = "";
+                try
+                {
+                    strSCLocation = fnGetScreenshot();
+                    ss = MediaEntityBuilder.CreateScreenCaptureFromPath(strSCLocation).Build(); 
+                }
+                catch 
+                {
+                    Thread.Sleep(TimeSpan.FromSeconds(2));
+                    strSCLocation = fnGetScreenshot();
+                    ss = MediaEntityBuilder.CreateScreenCaptureFromPath(strSCLocation).Build(); 
+                }
             }
 
             if (pstrStatus == Status.Fail) 
