@@ -19,10 +19,9 @@ namespace AutomationLibrary
 {
     public class ClsWebBrowser
     {
-        //private static readonly IDictionary<string, IWebDriver> dicDrivers = new Dictionary<string, IWebDriver>();
         public static IWebDriver _objGlobalDriver = null;
         private static IWebDriver _objDriver;
-        private static WebDriverWait _wait;
+        //private static WebDriverWait _wait;
 
         /// <summary>
         /// Represents an instance of webdriver
@@ -45,14 +44,11 @@ namespace AutomationLibrary
         /// <param name="pstrBrowsername"></param>
         public static void fnInitBrowser(string pstrBrowsername, string pstrPreferredLanguaje = "") 
         {
-            //TestContext.Progress.WriteLine($"Calling: fnInitBrowser with driver: {pstrBrowsername.ToUpper()}");
-
             try
             {
                 switch (pstrBrowsername.ToUpper().Trim())
                 {
                     case "CHROME":
-                        //TestContext.Progress.WriteLine($"Selecting driver: {pstrBrowsername.ToUpper()}");
                         ChromeOptions optionsChrome = new ChromeOptions();
                         optionsChrome.AddArgument("no-sandbox");
                         optionsChrome.AddArgument("start-maximized");
@@ -61,19 +57,15 @@ namespace AutomationLibrary
                         //Driver Manager
                         new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
                         _objDriver = new ChromeDriver(optionsChrome);
-                        _objDriver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
-                        _wait = new WebDriverWait(_objDriver, TimeSpan.FromSeconds(5));
+                        _objDriver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(20); 
                         _objDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
                         _objDriver.Manage().Window.Maximize();
                         _objDriver.Manage().Cookies.DeleteAllCookies();
+                        //_wait = new WebDriverWait(_objDriver, TimeSpan.FromSeconds(5));
                         Thread.Sleep(TimeSpan.FromSeconds(5));
                         break;
                     case "HEADLESSCHROME":
                         var optionsHeadlessChrome = new ChromeOptions();
-                        //optionsHeadlessChrome.AddArgument("no-sandbox");
-                        //optionsHeadlessChrome.AddArgument("window-size=1920,1080");
-                        //optionsHeadlessChrome.AddArgument("--headless");
-                        //optionsHeadlessChrome.AddArgument("--headless=new");
                         optionsHeadlessChrome.AddArgument("no-sandbox");
                         optionsHeadlessChrome.AddArgument("--headless");
 
@@ -81,7 +73,7 @@ namespace AutomationLibrary
                         new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
                         _objDriver = new ChromeDriver(optionsHeadlessChrome);
                         _objDriver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
-                        _wait = new WebDriverWait(_objDriver, TimeSpan.FromSeconds(5));
+                        //_wait = new WebDriverWait(_objDriver, TimeSpan.FromSeconds(5));
                         _objDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
                         _objDriver.Manage().Window.Maximize();
                         _objDriver.Manage().Cookies.DeleteAllCookies();
@@ -97,38 +89,12 @@ namespace AutomationLibrary
                             TestContext.Progress.WriteLine($"The microsoftwebdriver was not found in the folder path: {EdgeDriverDir}");
                         }
 
-                        /*
-                        string newEdgeDir = "";
-                        string EdgeDir = $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase)}";
-
-                        //Get Local or Remote Folder
-                        bool blDevops = false;
-                        var tempDirEdge = EdgeDir.Split('\\');
-                        foreach (var dir in tempDirEdge) 
-                        {
-                            if (dir == "drop")
-                            { blDevops = true;  break; }
-                            else if (dir == "bin")
-                            { break; }
-                            else
-                            {
-                                newEdgeDir = newEdgeDir + dir + "\\";
-                            }
-                        }
-
-                        if (blDevops) { newEdgeDir = @"C:\AutomationProjects\Data\EdgeDriver\"; }
-                        EdgeDir = newEdgeDir;
-                        //TestContext.Progress.WriteLine($"driver path obtained: {EdgeDir}");
-                        EdgeDir = EdgeDir.Replace("file:\\", "") + @"lib\";
-                        //TestContext.Progress.WriteLine($"driver path generated: {EdgeDir}");
-                        */
-
                         var optionsEdge = new OpenQA.Selenium.Edge.EdgeOptions();
                         optionsEdge.AddAdditionalCapability("UseChromium", true);
 
                         objDriver = new OpenQA.Selenium.Edge.EdgeDriver(OpenQA.Selenium.Edge.EdgeDriverService.CreateDefaultService(EdgeDriverDir), optionsEdge, TimeSpan.FromMinutes(3));
                         objDriver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
-                        _wait = new WebDriverWait(_objDriver, TimeSpan.FromSeconds(5));
+                        //_wait = new WebDriverWait(_objDriver, TimeSpan.FromSeconds(5));
                         _objDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
                         _objDriver.Manage().Window.Maximize();
                         _objDriver.Manage().Cookies.DeleteAllCookies();
@@ -174,7 +140,7 @@ namespace AutomationLibrary
                     objDriver2 = new ChromeDriver();
 
                     objDriver2.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
-                    _wait = new WebDriverWait(objDriver2, TimeSpan.FromSeconds(5));
+                    //_wait = new WebDriverWait(objDriver2, TimeSpan.FromSeconds(5));
                     objDriver2.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
                     objDriver2.Manage().Window.Maximize();
                     objDriver2.Manage().Cookies.DeleteAllCookies();

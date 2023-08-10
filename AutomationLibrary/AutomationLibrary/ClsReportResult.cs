@@ -18,7 +18,9 @@ namespace AutomationLibrary
         
         public static ExtentReports objExtent;
         public static ExtentTest objTest;
+        #pragma warning disable CS0618 // Type or member is obsolete
         public static ExtentV3HtmlReporter objHtmlReporter;
+        #pragma warning restore CS0618 // Type or member is obsolete
         public static bool TC_Status;
         public static bool DevOpsResult;
         public static bool isWarning;
@@ -36,43 +38,26 @@ namespace AutomationLibrary
             bool blSuccess;
             try
             {
-                //ClsDataDriven clsDD = new ClsDataDriven();
-                ///blSuccess = clsDD.fnAutomationSettings();
                 blSuccess = true;
 
                 if (blSuccess)
                 {
                     //To create report directory and add HTML report into it
-                    //objHtmlReporter = new ExtentV3HtmlReporter(ClsDataDriven.strReportLocation + ClsDataDriven.strReportName + @"\" + ClsDataDriven.strReportName + ".html");
                     string folderID = $"_{Environment.UserName.ToString()}";
                     BaseReportFolder = TestContext.Parameters["GI_ReportLocation"] + DateTime.Now.ToString("MMddyyyy_hhmmss") + folderID + @"\";
                     FullReportFolder = BaseReportFolder + TestContext.Parameters["GI_ProjectName"] + @"\" + TestContext.Parameters["GI_ReportName"] + ".html";
                     fnFolderSetup();
 
+                    //Configure Report
+                    #pragma warning disable CS0618 // Type or member is obsolete
                     objHtmlReporter = new ExtentV3HtmlReporter(FullReportFolder);
-
-
-                    /*
-                    objHtmlReporter.Config.ReportName = ClsDataDriven.strReportName;
-                    objHtmlReporter.Config.DocumentTitle = ClsDataDriven.strProjectName + " - " + ClsDataDriven.strReportName;
-                    objHtmlReporter.Config.Theme = AventStack.ExtentReports.Reporter.Configuration.Theme.Dark;
-                    objHtmlReporter.Config.Encoding = "utf-8";
-                    */
-
+                    #pragma warning restore CS0618 // Type or member is obsolete
                     objHtmlReporter.Config.ReportName = TestContext.Parameters["GI_ReportName"];
                     objHtmlReporter.Config.DocumentTitle = TestContext.Parameters["GI_ProjectName"] + " - " + TestContext.Parameters["GI_ReportName"];
                     objHtmlReporter.Config.Theme = AventStack.ExtentReports.Reporter.Configuration.Theme.Dark;
                     objHtmlReporter.Config.Encoding = "utf-8";
-
-
-                    /*
-                    objExtent = new ExtentReports();
-                    objExtent.AddSystemInfo("Project", ClsDataDriven.strProjectName);
-                    objExtent.AddSystemInfo("Browser", ClsDataDriven.strBrowser);
-                    objExtent.AddSystemInfo("Env", ClsDataDriven.strReportEnv);
-                    objExtent.AttachReporter(objHtmlReporter);
-                    */
-
+                    
+                    //Adding extra information to Report
                     objExtent = new ExtentReports();
                     objExtent.AddSystemInfo("Project", TestContext.Parameters["GI_ProjectName"]);
                     objExtent.AddSystemInfo("Browser", TestContext.Parameters["GI_BrowserName"]);
@@ -134,97 +119,6 @@ namespace AutomationLibrary
 
         }
 
-        /*
-        /// <summary>
-        /// Create a log step and optional takes the screenshot
-        /// </summary>
-        /// <param name="pstrStepName"></param>
-        /// <param name="pstrDescription"></param>
-        /// <param name="pstrStatus"></param>
-        /// <param name="pblScreenShot"></param>
-        /// <param name="pblHardStop"></param>
-        /// <param name="pstrHardStopMsg"></param>
-        [Obsolete("New function replace pstrStatus parameter to receive Status.[your status]")]
-        public static void fnLog(string pstrStepName, string pstrDescription, string pstrStatus, bool pblScreenShot, bool pblHardStop = false, string pstrHardStopMsg = "")
-        {
-            if (pblScreenShot)
-            {
-                string strSCLocation = fnGetScreenshot();
-                switch (pstrStatus.ToUpper())
-                {
-                    case "PASS":
-                        if (DevOpsResult)
-                        { TestContext.Progress.WriteLine($"{pstrDescription} - Pass");}
-                        objTest.Log(Status.Pass, pstrDescription, MediaEntityBuilder.CreateScreenCaptureFromPath(strSCLocation).Build());
-                        break;
-                    case "FAIL":
-                        TC_Status = false;
-                        if (DevOpsResult)
-                        { TestContext.Progress.WriteLine($"{pstrDescription} - Fail");}
-                        objTest.Log(Status.Fail, pstrDescription, MediaEntityBuilder.CreateScreenCaptureFromPath(strSCLocation).Build());
-                        if (pblHardStop)
-                            Assert.Fail(pstrHardStopMsg);
-                        break;
-                    case "INFO":
-                        if (DevOpsResult)
-                        {TestContext.Progress.WriteLine($"{pstrDescription} - Info"); }
-                        objTest.Log(Status.Info, pstrDescription, MediaEntityBuilder.CreateScreenCaptureFromPath(strSCLocation).Build());
-                        break;
-                    case "WARNING":
-                        isWarning = true;
-                        if (DevOpsResult)
-                        { TestContext.Progress.WriteLine($"{pstrDescription} - Warning");}
-                        objTest.Log(Status.Warning, pstrDescription, MediaEntityBuilder.CreateScreenCaptureFromPath(strSCLocation).Build());
-                        break;
-                }
-            }
-            else
-            {
-                switch (pstrStatus.ToUpper())
-                {
-                    case "PASS":
-                        if (DevOpsResult)
-                        {TestContext.Progress.WriteLine($"{pstrDescription} - Pass"); }
-                        objTest.Log(Status.Pass, pstrDescription);
-                        break;
-                    case "FAIL":
-                        TC_Status = false;
-                        if (DevOpsResult)
-                        { TestContext.Progress.WriteLine($"{pstrDescription} - Fail");}
-                        objTest.Log(Status.Fail, pstrDescription);
-                        if (pblHardStop) { Assert.Fail(pstrHardStopMsg); }
-                        break;
-                    case "INFO":
-                        if (DevOpsResult)
-                        {TestContext.Progress.WriteLine($"{pstrDescription} - Info"); }
-                        objTest.Log(Status.Info, pstrDescription);
-                        break;
-                    case "WARNING":
-                        isWarning = true;
-                        if (DevOpsResult)
-                        { TestContext.Progress.WriteLine($"{pstrDescription} - Warning");}
-                        objTest.Log(Status.Info, pstrDescription);
-                        break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Create a log step and optional takes the screenshot
-        /// </summary>
-        /// <param name="pstrStepName"></param>
-        /// <param name="pstrDescription"></param>
-        /// <param name="pstrStatus"></param>
-        /// <param name="pblScreenShot"></param>
-        /// <param name="pblHardStop"></param>
-        /// <param name="pstrHardStopMsg"></param>
-        [Obsolete("This method will be deleted soon, use fnLog(string pstrStepName, string pstrDescription, Status pstrStatus, bool pblScreenShot) instead")]
-        public static void fnLog(string pstrStepName, string pstrDescription, Status pstrStatus, bool pblScreenShot, bool pblHardStop = false, string pstrHardStopMsg = "")
-        {
-            fnLog(pstrStepName, pstrDescription, pstrStatus, pblScreenShot);
-        }
-        */
-
         /// <summary>
         /// Create a log step and optional takes the screenshot
         /// </summary>
@@ -272,7 +166,6 @@ namespace AutomationLibrary
         public static void fnAssertFail(string pstrMessage)
         {
             TC_Status = false;
-            //ClsWebBrowser.fnCloseBrowser();
             throw new Exception($"Assertion Failed: {pstrMessage}");
         }
 
@@ -333,6 +226,9 @@ namespace AutomationLibrary
 
         }
 
+        /// <summary>
+        /// Renames the report path, but screenshots are loss when this action is executed.
+        /// </summary>
         public static void fnRenameFolder() 
         {
             try
