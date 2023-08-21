@@ -560,20 +560,24 @@ namespace AutomationLibrary
             //ClsReportResult clsRR = new clsReportResult();
             bool blResult = false;
 
-            try
+            if (pstrTextEnter != "") 
             {
-                ClsReportResult.fnLog("SendKeys", "Step - Sendkeys: " + pstrTextEnter + " to field: " + pstrField, Status.Info, false);
-                strAction = "CustomSendKeys";
-                fnGetFluentWait(pobjWebElement, strAction, pstrTextEnter);
-                ClsReportResult.fnLog("SendKeysPass", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " was done successfully.", Status.Pass, pblScreenShot);
-                blResult = true;
+                try
+                {
+                    ClsReportResult.fnLog("SendKeys", "Step - Sendkeys: " + pstrTextEnter + " to field: " + pstrField, Status.Info, false);
+                    strAction = "CustomSendKeys";
+                    fnGetFluentWait(pobjWebElement, strAction, pstrTextEnter);
+                    ClsReportResult.fnLog("SendKeysPass", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " was done successfully.", Status.Pass, pblScreenShot);
+                    blResult = true;
+                }
+                catch (Exception pobjException)
+                {
+                    //ClsReportResult.fnLog("SendKeysFail", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " has failed.", Status.Fail, true); //Removing FAIL status perr Sekhar Request
+                    ClsReportResult.fnLog("SendKeysFail", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " has failed.", Status.Warning, true);
+                    fnExceptionHandling(pobjException);
+                }
             }
-            catch (Exception pobjException)
-            {
-                //ClsReportResult.fnLog("SendKeysFail", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " has failed.", Status.Fail, true); //Removing FAIL status perr Sekhar Request
-                ClsReportResult.fnLog("SendKeysFail", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " has failed.", Status.Warning, true);
-                fnExceptionHandling(pobjException);
-            }
+            
             return blResult;
         }
 
