@@ -175,17 +175,19 @@ namespace AutomationLibrary
         /// <returns></returns>
         public static string fnGetScreenshot()
         {
-            //string strSCName = "SC_" + ClsDataDriven.strProjectName + "_" + DateTime.Now.ToString("MMddyyyy_hhmmss");
-            string strSCName = "SC_" + TestContext.Parameters["GI_ProjectName"].Replace(" ", "_") + "_" + DateTime.Now.ToString("MMddyyyy_hhmmss");
-
-            //To take screenshot
-            Screenshot objFile = ((ITakesScreenshot)ClsWebBrowser.objDriver).GetScreenshot();
-
-            //string strFileLocation = ClsDataDriven.strReportLocation + @"\Screenshots\" + strSCName + ".jpg";
-            string strFileLocation = BaseReportFolder + @"Screenshots\" + strSCName + ".jpg";
-            //To save screenshot
-            objFile.SaveAsFile(strFileLocation, ScreenshotImageFormat.Jpeg);
-
+            string strFileLocation = "";
+            try
+            {
+                string strSCName = "SC_" + TestContext.Parameters["GI_ProjectName"].Replace(" ", "_") + "_" + DateTime.Now.ToString("MMddyyyy_hhmmss");
+                //To take screenshot
+                Screenshot objFile = ((ITakesScreenshot)ClsWebBrowser.objDriver).GetScreenshot();
+                strFileLocation = BaseReportFolder + @"Screenshots\" + strSCName + ".jpg";
+                //To save screenshot
+                objFile.SaveAsFile(strFileLocation, ScreenshotImageFormat.Jpeg);
+            }
+            catch 
+            { }
+            
             return strFileLocation;
         }
 

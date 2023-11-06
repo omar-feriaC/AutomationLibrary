@@ -52,7 +52,7 @@ namespace AutomationLibrary
                         ChromeOptions optionsChrome = new ChromeOptions();
                         optionsChrome.AddArgument("no-sandbox");
                         optionsChrome.AddArgument("start-maximized");
-                        if (pstrPreferredLanguaje != "") { optionsChrome.AddArgument($"--{pstrPreferredLanguaje}"); }
+                        if (pstrPreferredLanguaje != "") { optionsChrome.AddArgument($"--lang={pstrPreferredLanguaje}"); }
 
                         //Driver Manager
                         new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
@@ -61,7 +61,6 @@ namespace AutomationLibrary
                         _objDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
                         _objDriver.Manage().Window.Maximize();
                         _objDriver.Manage().Cookies.DeleteAllCookies();
-                        //_wait = new WebDriverWait(_objDriver, TimeSpan.FromSeconds(5));
                         Thread.Sleep(TimeSpan.FromSeconds(5));
                         break;
                     case "HEADLESSCHROME":
@@ -73,7 +72,6 @@ namespace AutomationLibrary
                         new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
                         _objDriver = new ChromeDriver(optionsHeadlessChrome);
                         _objDriver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(10));
-                        //_wait = new WebDriverWait(_objDriver, TimeSpan.FromSeconds(5));
                         _objDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
                         _objDriver.Manage().Window.Maximize();
                         _objDriver.Manage().Cookies.DeleteAllCookies();
