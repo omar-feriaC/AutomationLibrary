@@ -25,6 +25,8 @@ namespace AutomationLibrary
         private int _intColStartIndex;
         private int _intRowStartIndex;
         private Dictionary<string, int> _dicHeader;
+        public Dictionary<string, int> DicHeader;
+
 
         /// <summary>
         /// Get Current Row Selected
@@ -135,6 +137,7 @@ namespace AutomationLibrary
                 _intRowStartIndex = _objFile.GetWorksheetStatistics().StartRowIndex;
                 _intColStartIndex = _objFile.GetWorksheetStatistics().StartColumnIndex;
                 _dicHeader = _GetHeaders(_objFile);
+                DicHeader = _dicHeader;
                 _GetRowCount();
                 _GetColumCount();
 

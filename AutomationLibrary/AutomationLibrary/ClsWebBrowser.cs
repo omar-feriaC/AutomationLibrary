@@ -76,7 +76,6 @@ namespace AutomationLibrary
                         _objDriver.Manage().Window.Maximize();
                         _objDriver.Manage().Cookies.DeleteAllCookies();
                         Thread.Sleep(TimeSpan.FromSeconds(5));
-
                         break;
                     case "EDGE":
                         var EdgeDriverName = "microsoftwebdriver.exe";
