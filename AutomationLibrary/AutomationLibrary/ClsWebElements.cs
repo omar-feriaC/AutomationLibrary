@@ -135,6 +135,8 @@ namespace AutomationLibrary
             objFluentWait.Timeout = TimeSpan.FromSeconds(Timeout);
             objFluentWait.PollingInterval = TimeSpan.FromMilliseconds(250);
             objFluentWait.IgnoreExceptionTypes(typeof(WebDriverTimeoutException), typeof(SuccessException));
+            Actions action = new Actions(ClsWebBrowser.objDriver);
+
 
             switch (pstrAction)
             {
@@ -151,8 +153,16 @@ namespace AutomationLibrary
                     objFluentWait.Until(x => pobjWebElement).Clear();
                     break;
                 case "CustomSendKeys":
-                    Actions action = new Actions(ClsWebBrowser.objDriver);
                     pobjWebElement.Click();
+                    action.KeyDown(Keys.Control).SendKeys(Keys.Home).Perform();
+                    pobjWebElement.Clear();
+                    Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    pobjWebElement.SendKeys(Keys.Delete);
+                    pobjWebElement.SendKeys(pstrTextEnter);
+                    break;
+                case "CustomSendKeysUpdate":
+                    pobjWebElement.Click();
+                    Thread.Sleep(TimeSpan.FromSeconds(1));
                     action.KeyDown(Keys.Control).SendKeys(Keys.Home).Perform();
                     pobjWebElement.Clear();
                     Thread.Sleep(TimeSpan.FromMilliseconds(500));
@@ -237,6 +247,7 @@ namespace AutomationLibrary
             }
         }
 
+        /*
         /// <summary>
         /// Wait to page to be loaded and wait  and WebElement to be present
         /// </summary>
@@ -304,6 +315,7 @@ namespace AutomationLibrary
             }
             return blResult;
         }
+        */
 
         /// <summary>
         /// Wait to load the page
@@ -327,6 +339,8 @@ namespace AutomationLibrary
             }
             return blResult;
         }
+
+
 
 
 
@@ -366,7 +380,12 @@ namespace AutomationLibrary
         }
 
 
-
+        /// <summary>
+        /// Wait for element to be Displayed
+        /// </summary>
+        /// <param name="by"></param>
+        /// <param name="pTimeToWait"></param>
+        /// <returns></returns>
         public static bool fnElementDisplayed(By by, TimeSpan? pTimeToWait = null)
         {
             try
@@ -378,9 +397,6 @@ namespace AutomationLibrary
                 return false;
             }
         }
-
-
-
 
 
         /// <summary>
@@ -413,6 +429,7 @@ namespace AutomationLibrary
         {
             return fnWaitUntilElementVisible(By.XPath(pLocator), pTimeToWait);
         }
+
 
         /// <summary>
         /// Wait for element to be hidden in the current page.
@@ -572,12 +589,37 @@ namespace AutomationLibrary
                 }
                 catch (Exception pobjException)
                 {
-                    //ClsReportResult.fnLog("SendKeysFail", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " has failed.", Status.Fail, true); //Removing FAIL status perr Sekhar Request
                     ClsReportResult.fnLog("SendKeysFail", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " has failed.", Status.Warning, true);
                     fnExceptionHandling(pobjException);
                 }
             }
             
+            return blResult;
+        }
+
+        public static bool fnCustomSendKeysUpdate(IWebElement pobjWebElement, string pstrField, string pstrTextEnter, bool pblScreenShot = true)
+        {
+            //ClsReportResult clsRR = new clsReportResult();
+            bool blResult = false;
+
+            if (pstrTextEnter != "")
+            {
+                try
+                {
+                    ClsReportResult.fnLog("SendKeys", "Step - Sendkeys: " + pstrTextEnter + " to field: " + pstrField, Status.Info, false);
+                    strAction = "CustomSendKeys";
+                    fnGetFluentWait(pobjWebElement, strAction, pstrTextEnter);
+                    ClsReportResult.fnLog("SendKeysPass", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " was done successfully.", Status.Pass, pblScreenShot);
+                    blResult = true;
+                }
+                catch (Exception pobjException)
+                {
+                    //ClsReportResult.fnLog("SendKeysFail", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " has failed.", Status.Fail, true); //Removing FAIL status perr Sekhar Request
+                    ClsReportResult.fnLog("SendKeysFail", "The SendKeys for: " + pstrField + " with value: " + pstrTextEnter + " has failed.", Status.Warning, true);
+                    fnExceptionHandling(pobjException);
+                }
+            }
+
             return blResult;
         }
 
@@ -1155,32 +1197,7 @@ namespace AutomationLibrary
             }
         }
 
-        /// <summary>
-        /// Wait to the element to be clickable
-        /// </summary>
-        /// <param name="by"></param>
-        /// <param name="Timeout"></param>
-        /// <returns></returns>
-        [Obsolete("Use public static bool fnWaitUntilElementClickable funtion")]
-        public static bool fnWaitToBeClickable(By by, int Timeout = 5)
-        {
-            bool pblStatus = false;
-            IWebElement objWebElement;
-            try
-            {
-                objExplicitWait = new WebDriverWait(ClsWebBrowser.objDriver, TimeSpan.FromSeconds(Timeout));
-                objExplicitWait.IgnoreExceptionTypes(typeof(WebDriverTimeoutException));
-                objWebElement = objExplicitWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(by));
-                pblStatus = true;
-                return pblStatus;
-
-            }
-            catch (Exception pobjException)
-            {
-                fnExceptionHandling(pobjException);
-                return pblStatus;
-            }
-        }
+        
 
         /// <summary>
         /// Function used to handling error

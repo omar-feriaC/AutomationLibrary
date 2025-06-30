@@ -52,6 +52,7 @@ namespace AutomationLibrary
                         ChromeOptions optionsChrome = new ChromeOptions();
                         optionsChrome.AddArgument("no-sandbox");
                         optionsChrome.AddArgument("start-maximized");
+                        optionsChrome.SetLoggingPreference(LogType.Browser, LogLevel.All);
                         if (pstrPreferredLanguaje != "") { optionsChrome.AddArgument($"--lang={pstrPreferredLanguaje}"); }
 
                         //Driver Manager
@@ -114,7 +115,7 @@ namespace AutomationLibrary
                 TestContext.Progress.WriteLine($"Exception selecting driver: {pstrBrowsername.ToUpper()},the following exeption has occurred: {e.Message}");
 
                 //Stack Trace
-                ClsVariables.fnAddStackTrace($"Exception selecting driver: {pstrBrowsername.ToUpper()},the following exeption has occurred: {e.Message}");
+                ClsVariables.fnAddStackTrace($"Exception selecting driver: {pstrBrowsername.ToUpper()},the following exeption has occurred: {e.Message +  e.StackTrace}");
             }
         }
 
